@@ -27,12 +27,7 @@ module.exports = {
       },
       typeId: {
         type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: "Types",
-          },
-          key: "id",
-        },
+        references: { model: "Types", key: "id" },
       },
       firstLogin: {
         type: Sequelize.INTEGER,
