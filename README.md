@@ -1,1 +1,0 @@
-# palkma-byte.github.io
