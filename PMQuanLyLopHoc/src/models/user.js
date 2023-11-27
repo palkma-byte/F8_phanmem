@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         through: "UserRoles",
         foreignKey: "userId",
       });
+      User.hasOne(models.LoginToken);
+      User.hasMany(models.UserSocial, { foreignKey: "userId" });
     }
   }
   User.init(
