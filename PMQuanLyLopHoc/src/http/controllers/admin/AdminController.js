@@ -1,7 +1,8 @@
 const { User } = require("../../../models");
 module.exports = {
   index: async (req, res) => {
-    const user = await User.findAll();
-    res.json(user);
+    const user = req.user;
+    console.log();
+    res.render("admin/index", { user });
   },
 };

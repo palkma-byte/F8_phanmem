@@ -5,7 +5,7 @@ var router = express.Router();
 router.get("/", async (req, res) => {
   
  
-  res.send("Hoc vien");
+  res.render("student/index");
 });
 
 module.exports = router;
