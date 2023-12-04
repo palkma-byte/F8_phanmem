@@ -2,18 +2,19 @@
   <div class="register-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+        <a href="/" class="h1"><b>Admin</b>LTE</a>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">Register a new membership</p>
+        <p class="login-box-msg">Update account</p>
 
-        <form action="/auth/register" method="post">
+        <form action="/auth/update" method="post">
           <div class="input-group mb-3">
             <input
               type="text"
               class="form-control"
               placeholder="Full name"
               name="name"
+              value="<%= user.name %>"
               required
             />
             <div class="input-group-append">
@@ -28,25 +29,13 @@
               class="form-control"
               placeholder="Email"
               name="email"
+              value="<%= user.email %>"
+              disabled
               required
             />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Password"
-              name="password"
-              required
-            />
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
@@ -56,6 +45,7 @@
               type="text"
               class="form-control"
               placeholder="Phone"
+              value="<%= user.phone %>"
               name="phone"
             />
             <div class="input-group-append">
@@ -69,6 +59,7 @@
               type="text"
               class="form-control"
               placeholder="Address"
+              value="<%= user.address %>"
               name="address"
             />
             <div class="input-group-append">
@@ -78,24 +69,11 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-8">
-              <div class="icheck-primary">
-                <input
-                  type="checkbox"
-                  id="agreeTerms"
-                  name="terms"
-                  value="agree"
-                  required
-                />
-                <label for="agreeTerms">
-                  I agree to the <a href="#">terms</a>
-                </label>
-              </div>
-            </div>
+            <div class="col-4"></div>
             <!-- /.col -->
             <div class="col-4">
               <button type="submit" class="btn btn-primary btn-block">
-                Register
+                Cap nhat thong tin
               </button>
             </div>
             <!-- /.col -->
@@ -105,23 +83,27 @@
         <div class="social-auth-links text-center">
           <a href="/auth/facebook" class="btn btn-block btn-primary">
             <i class="fab fa-facebook mr-2"></i>
-            Sign up using Facebook
+            Lien ket Facebook
           </a>
           <a href="/auth/google" class="btn btn-block btn-danger">
             <i class="fab fa-google mr-2"></i>
-            Sign up using Google
+            Lien ket Google
           </a>
 
           <a href="/auth/github" class="btn btn-block btn-dark">
             <i class="fab fa-github mr-2"></i>
-            Sign up using GitHub
+            Lien ket GitHub
           </a>
         </div>
 
-        <a href="login" class="text-center">I already have account</a>
+        <p class="mb-1">
+          <a href="/">Quay lai trang chu</a>
+        </p>
       </div>
+
       <!-- /.form-box -->
     </div>
+
     <!-- /.card -->
   </div>
 </body>

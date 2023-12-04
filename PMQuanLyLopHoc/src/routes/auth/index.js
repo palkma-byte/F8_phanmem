@@ -2,26 +2,31 @@ var express = require("express");
 var router = express.Router();
 const passport = require("passport");
 
+const AuthController = require("../../http/controllers/auth/AuthController");
+const isUser = require("../../http/middlewares/isUser");
 /* GET home page. */
-router.get("/login", (req, res) => {
-  const flashmsg = req.flash("error")[0];
+router.get("/login", isUser, AuthController.login);
 
-  res.render("auth/login", { flashmsg, layout: "layout/auth.layout.ejs" });
-});
+router.get("/register", isUser, AuthController.register);
+router.post("/register", AuthController.handleRegister);
+router.get("/verify", isUser, AuthController.verify);
+router.post("/verify", AuthController.handleVerify);
+router.get("/recover-password", isUser, AuthController.recoverPassword);
+router.post("/recover-password", AuthController.handleRecoverPassword);
+router.get("/new-password/:token", isUser, AuthController.newPassword);
+router.post("/new-password/:token", AuthController.handleNewPassword);
+router.get("/update", AuthController.update);
+router.post("/update", AuthController.handleUpdate);
+router.post("/logout", AuthController.logout);
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/admin",
-    failureRedirect: "/auth",
+    // successRedirect: "/admin",
+    failureRedirect: "/auth/login",
     failureFlash: true,
-  })
+  }),
+  AuthController.handleLogin
 );
-router.get("/register", (req, res) => {
-  res.render("auth/register", { layout: "layout/auth.layout.ejs" });
-});
-router.post("/register", (req, res) => {
-  res.send("Register");
-});
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -29,18 +34,20 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/",
+    // successRedirect: "/",
     failureRedirect: "/login",
-  })
+  }),
+  AuthController.handleLogin
 );
 router.get("/facebook", passport.authenticate("facebook"));
 
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
-    successRedirect: "/",
+    // successRedirect: "/",
     failureRedirect: "/login",
-  })
+  }),
+  AuthController.handleLogin
 );
 
 router.get("/github", passport.authenticate("github"));
@@ -48,9 +55,10 @@ router.get("/github", passport.authenticate("github"));
 router.get(
   "/github/callback",
   passport.authenticate("github", {
-    successRedirect: "/",
+    // successRedirect: "/",
     failureRedirect: "/login",
-  })
+  }),
+  AuthController.handleLogin
 );
 
 module.exports = router;

@@ -11,3 +11,7 @@ Perfix: /teacher
 ## Đối tượng xác thực 
 Prefix: /auth
 
+# Chuc nang authen phu
+ Lich su dang nhap
+
+

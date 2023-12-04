@@ -21,6 +21,10 @@ const adminRouter = require("../src/routes/admin/index");
 const studentRouter = require("../src/routes/students/index");
 const teacherRouter = require("../src/routes/teacher/index");
 
+const isGuest = require("../src/http/middlewares/isGuest");
+const loggedOneDevice = require("../src/http/middlewares/loggedOneDevice");
+const getType = require("../src/http/middlewares/CheckTypeMiddleware");
+
 var app = express();
 
 // view engine setup
@@ -36,7 +40,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
 // app.use(express.static("../public"));
-console.log(path.join(__dirname, "../public"));
 
 app.use(
   session({
@@ -69,7 +72,10 @@ passport.deserializeUser(async function (id, cb) {
 //Routers
 
 app.use("/auth", authRouter);
-app.use("/", studentRouter);
+app.use(isGuest);
+app.use(loggedOneDevice);
+app.use(getType);
+app.use("/student", studentRouter);
 app.use("/teacher", teacherRouter);
 app.use("/admin", adminRouter);
 

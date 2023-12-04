@@ -13,6 +13,9 @@ module.exports = new LocalStrategy(
     if (!user) {
       return cb(null, false, { message: "Invalid email or password" });
     }
+    if (user.firstLogin === 0) {
+      return cb(null, false, { message: "Tai khoan chua xac thuc" });
+    }
 
     const hash = user.password;
     bcrypt.compare(password, hash, (err, result) => {

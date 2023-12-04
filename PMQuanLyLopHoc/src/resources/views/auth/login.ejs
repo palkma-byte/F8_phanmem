@@ -8,11 +8,16 @@
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
         <!-- Flash message -->
-        <% if(flashmsg){ %>
+        <% if(flashMsg){ %>
         <div class="alert alert-danger" role="alert">
-          <strong>Error!</strong> <%= flashmsg %>
+          <strong>Error!</strong> <%= flashMsg %>
+        </div>
+        <% } %> <% if(successMsg){ %>
+        <div class="alert alert-success" role="alert">
+          <strong>Success!</strong> <%= successMsg %>
         </div>
         <% } %>
+
         <!-- /Flash message -->
         <form method="post">
           <div class="input-group mb-3">
@@ -74,7 +79,7 @@
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-          <a href="#">I forgot my password</a>
+          <a href="recover-password">I forgot my password</a>
         </p>
         <p class="mb-0">
           <a href="register" class="text-center">Register a new account</a>
