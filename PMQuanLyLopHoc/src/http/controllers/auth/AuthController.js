@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
 const transporter = require("../../../utils/transporter");
-const { User, LoginToken, UserOtp } = require("../../../models");
+const { User, LoginToken, UserOtp, Social } = require("../../../models");
 const md5 = require("md5");
 const otpGenerator = require("otp-generator");
 const jwt = require("jsonwebtoken");
+const { use } = require("passport");
 
 module.exports = {
   login: (req, res) => {
@@ -143,8 +144,12 @@ module.exports = {
     res.redirect("login");
   },
   logout: async (req, res, next) => {
-    await LoginToken.destroy({ where: { token: req.cookies.lgt } });
-    res.clearCookie("lgt");
+    try {
+      await LoginToken.destroy({ where: { token: req.cookies.lgt } });
+      res.clearCookie("lgt");
+    } catch (error) {
+      res.redirect("/auth/login");
+    }
     req.logout(async (err) => {
       if (err) {
         next();
@@ -154,7 +159,11 @@ module.exports = {
   },
   update: (req, res) => {
     const user = req.user;
+    const flashMsg = req.flash("error")[0];
+    const successMsg = req.flash("success")[0];
     res.render("auth/account-setting", {
+      flashMsg,
+      successMsg,
       user,
       layout: "layout/auth.layout.ejs",
     });
@@ -164,5 +173,32 @@ module.exports = {
     const { name, phone, address } = req.body;
     await user.update({ name: name, phone: phone, address: address });
     res.redirect("/");
+  },
+  changePassword: (req, res) => {
+    res.render("auth/change-password");
+  },
+  handleChangePassword: async (req, res) => {
+    const user = req.user;
+    const { oldPassword, password, confirmPassword } = req.body;
+    if (
+      bcrypt.compareSync(oldPassword, user.password) &&
+      password === confirmPassword
+    ) {
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+      await User.update({ password: hash }, { where: { email: user.email } });
+      req.flash("success", "Doi mat khau thanh cong!");
+    } else {
+      req.flash("error", "Doi mat khau khong thanh cong!");
+    }
+    res.redirect("/auth/update");
+  },
+  removeSocial: async (req, res) => {
+    const user = req.user;
+    const { social } = req.params;
+    const socialConnected = await Social.findOne({ where: { name: social } });
+    await user.removeSocial(socialConnected);
+    req.flash("success", `Huy bo lien ket ${social} thanh cong!`);
+    res.redirect("/auth/update");
   },
 };

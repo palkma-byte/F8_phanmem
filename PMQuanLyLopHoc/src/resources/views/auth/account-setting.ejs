@@ -6,6 +6,15 @@
       </div>
       <div class="card-body">
         <p class="login-box-msg">Update account</p>
+        <% if(flashMsg){ %>
+          <div class="alert alert-danger" role="alert">
+            <strong>Error!</strong> <%= flashMsg %>
+          </div>
+          <% } %> <% if(successMsg){ %>
+          <div class="alert alert-success" role="alert">
+            <strong>Success!</strong> <%= successMsg %>
+          </div>
+          <% } %>
 
         <form action="/auth/update" method="post">
           <div class="input-group mb-3">
@@ -85,14 +94,27 @@
             <i class="fab fa-facebook mr-2"></i>
             Lien ket Facebook
           </a>
+          <a href="/auth/remove/facebook" class="btn btn-block btn-link text-danger">
+            <i class="fas fa-times-circle mr-2"></i>
+            Cancel Facebook Connection
+          </a>
+        
           <a href="/auth/google" class="btn btn-block btn-danger">
             <i class="fab fa-google mr-2"></i>
             Lien ket Google
           </a>
-
+          <a href="/auth/remove/google" class="btn btn-block btn-link text-danger">
+            <i class="fas fa-times-circle mr-2"></i>
+            Cancel Google Connection
+          </a>
+        
           <a href="/auth/github" class="btn btn-block btn-dark">
             <i class="fab fa-github mr-2"></i>
             Lien ket GitHub
+          </a>
+          <a href="/auth/remove/github" class="btn btn-block btn-link text-danger">
+            <i class="fas fa-times-circle mr-2"></i>
+            Cancel GitHub Connection
           </a>
         </div>
 

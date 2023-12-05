@@ -10,25 +10,27 @@ module.exports = new GoogleStrategy(
     callbackURL: process.env.GOOGLE_URL_CALLBACK,
   },
   async (accessToken, refreshToken, profile, done) => {
-    // Xử lý thông tin người dùng sau khi xác thực thành công
-    // Có thể tạo hoặc cập nhật tài khoản người dùng trong cơ sở dữ liệu
+    //Lien ket tai khoan dua tren email, khi email dang ky va email lien ket khong trung => khong thanh cong 
 
     const { displayName, provider } = profile;
-    const [social, createSocial] = await Social.findOrCreate({
-      where: { name: provider },
-      default: { name: provider },
-    });
-    // console.log(social);
-    const [user, createUser] = await User.findOrCreate({
+
+    const social = await Social.findOne({ where: { name: provider } });
+    const user = await User.findOne({
       where: { email: profile._json.email },
-      default: { name: displayName, email: profile._json.email },
     });
-    await user.addSocial(social);
-    const fk = await UserSocial.findOne({
-      where: { userId: user.id, providerId: social.id },
-    });
-    await fk.update({ externalId: profile.id });
-    console.log(fk);
-    return done(null, user);
+    const socialConnected = await user.hasSocial(social);
+    const logged = await user.getLoginToken();
+    if (!socialConnected && !logged) {
+      return done(null, false, { message: "Mang xa hoi chua duoc ket noi!" });
+    } else if (!socialConnected && logged) {
+      const [social, createSocial] = await Social.findOrCreate({
+        where: { name: provider },
+        default: { name: provider },
+      });
+      await user.addSocial(social);
+      return done(null, user);
+    } else if (socialConnected && !logged) {
+      return done(null, user);
+    }
   }
 );

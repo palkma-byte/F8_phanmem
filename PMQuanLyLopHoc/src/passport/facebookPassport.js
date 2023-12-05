@@ -14,22 +14,23 @@ module.exports = new FacebookStrategy(
     // Có thể tạo hoặc cập nhật tài khoản người dùng trong cơ sở dữ liệu
     //if(req.user){ }
 
-    const { displayName, provider } = profile;
-    const [social, createSocial] = await Social.findOrCreate({
-      where: { name: provider },
-      default: { name: provider },
-    });
-    // console.log(social);
-    const [user, createUser] = await User.findOrCreate({
-      where: { email: profile._json.email },
-      default: { name: displayName, email: profile._json.email },
-    });
-    await user.addSocial(social);
-    const fk = await UserSocial.findOne({
-      where: { userId: user.id, providerId: social.id },
-    });
-    await fk.update({ externalId: profile.id });
-    console.log(fk);
-    return done(null, user);
+    // const { displayName, provider } = profile;
+    // const [social, createSocial] = await Social.findOrCreate({
+    //   where: { name: provider },
+    //   default: { name: provider },
+    // });
+    // // console.log(social);
+    // const [user, createUser] = await User.findOrCreate({
+    //   where: { email: profile._json.email },
+    //   default: { name: displayName, email: profile._json.email },
+    // });
+    // await user.addSocial(social);
+    // const fk = await UserSocial.findOne({
+    //   where: { userId: user.id, providerId: social.id },
+    // });
+    // await fk.update({ externalId: profile.id });
+    // console.log(fk);
+    // return done(null, user);
+    return done(null, false, { message: 'Authentication failed. Please try this option later.' });
   }
 );

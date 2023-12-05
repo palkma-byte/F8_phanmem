@@ -17,6 +17,9 @@ router.get("/new-password/:token", isUser, AuthController.newPassword);
 router.post("/new-password/:token", AuthController.handleNewPassword);
 router.get("/update", AuthController.update);
 router.post("/update", AuthController.handleUpdate);
+router.get("/change-password", AuthController.changePassword);
+router.post("/change-password", AuthController.handleChangePassword);
+router.get("/remove/:social", AuthController.removeSocial);
 router.post("/logout", AuthController.logout);
 router.post(
   "/login",
@@ -35,6 +38,8 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     // successRedirect: "/",
+    
+    failureFlash: true,
     failureRedirect: "/login",
   }),
   AuthController.handleLogin
@@ -45,6 +50,7 @@ router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
     // successRedirect: "/",
+    failureFlash: true,
     failureRedirect: "/login",
   }),
   AuthController.handleLogin
@@ -52,10 +58,12 @@ router.get(
 
 router.get("/github", passport.authenticate("github"));
 
+
 router.get(
   "/github/callback",
   passport.authenticate("github", {
     // successRedirect: "/",
+    failureFlash: true,
     failureRedirect: "/login",
   }),
   AuthController.handleLogin
