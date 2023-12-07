@@ -38,7 +38,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     // successRedirect: "/",
-    
+
     failureFlash: true,
     failureRedirect: "/login",
   }),
@@ -57,7 +57,6 @@ router.get(
 );
 
 router.get("/github", passport.authenticate("github"));
-
 
 router.get(
   "/github/callback",

@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     if (token) {
       next();
     } else {
-      req.flash("error", "Tai khoan vua duoc dang nhap o noi khac");
+      res.clearCookie("lgt");
       req.logout((err) => {
         if (err) {
           next();

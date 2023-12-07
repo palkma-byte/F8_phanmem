@@ -10,8 +10,27 @@ module.exports = new GoogleStrategy(
     callbackURL: process.env.GOOGLE_URL_CALLBACK,
   },
   async (accessToken, refreshToken, profile, done) => {
-    //Lien ket tai khoan dua tren email, khi email dang ky va email lien ket khong trung => khong thanh cong 
+    //Lien ket tai khoan dua tren email, khi email dang ky va email lien ket khong trung => khong thanh cong
 
+    // const { displayName, provider, id } = profile;
+    // const [social, createSocial] = await Social.findOrCreate({
+    //   where: { name: provider },
+    //   default: { name: provider },
+    // });
+    // const userSocial = await UserSocial.findOne({
+    //   where: { externalId: id, providerId: social.id },
+    // });
+    // if (!userSocial) {
+    //   return done(null, false, { message: "Mang xa hoi chua duoc ket noi!" });
+    // } else {
+    //   const user = await User.findOne({
+    //     where: { id: userSocial.userId },
+    //   });
+    //   const logged = await user.getLoginToken();
+    //   if(logged){
+        
+    //   }
+    // }
     const { displayName, provider } = profile;
 
     const social = await Social.findOne({ where: { name: provider } });
@@ -32,5 +51,9 @@ module.exports = new GoogleStrategy(
     } else if (socialConnected && !logged) {
       return done(null, user);
     }
+    
+   
+    
+ 
   }
 );
