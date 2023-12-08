@@ -148,7 +148,7 @@ module.exports = {
       await LoginToken.destroy({ where: { token: req.cookies.lgt } });
       res.clearCookie("lgt");
     } catch (error) {
-      res.redirect("/auth/login");
+     console.log(error);
     }
     req.logout(async (err) => {
       if (err) {

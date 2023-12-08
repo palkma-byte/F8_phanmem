@@ -72,9 +72,11 @@ passport.deserializeUser(async function (id, cb) {
 //Routers
 
 app.use("/auth", authRouter);
+
 app.use(isGuest);
 app.use(loggedOneDevice);
 app.use(getType);
+
 app.use("/student", studentRouter);
 app.use("/teacher", teacherRouter);
 app.use("/admin", adminRouter);

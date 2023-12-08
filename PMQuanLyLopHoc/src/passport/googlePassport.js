@@ -8,52 +8,41 @@ module.exports = new GoogleStrategy(
     clientID: process.env.GOOGLE_APP_ID,
     clientSecret: process.env.GOOGLE_APP_SECRET,
     callbackURL: process.env.GOOGLE_URL_CALLBACK,
+    passReqToCallback: true,
   },
-  async (accessToken, refreshToken, profile, done) => {
-    //Lien ket tai khoan dua tren email, khi email dang ky va email lien ket khong trung => khong thanh cong
-
-    // const { displayName, provider, id } = profile;
-    // const [social, createSocial] = await Social.findOrCreate({
-    //   where: { name: provider },
-    //   default: { name: provider },
-    // });
-    // const userSocial = await UserSocial.findOne({
-    //   where: { externalId: id, providerId: social.id },
-    // });
-    // if (!userSocial) {
-    //   return done(null, false, { message: "Mang xa hoi chua duoc ket noi!" });
-    // } else {
-    //   const user = await User.findOne({
-    //     where: { id: userSocial.userId },
-    //   });
-    //   const logged = await user.getLoginToken();
-    //   if(logged){
-        
-    //   }
-    // }
-    const { displayName, provider } = profile;
-
-    const social = await Social.findOne({ where: { name: provider } });
-    const user = await User.findOne({
-      where: { email: profile._json.email },
+  async (request, accessToken, refreshToken, profile, done) => {
+    const { id, displayName, provider } = profile;
+    const [social, createSocial] = await Social.findOrCreate({
+      where: { name: provider },
+      default: { name: provider },
     });
-    const socialConnected = await user.hasSocial(social);
-    const logged = await user.getLoginToken();
-    if (!socialConnected && !logged) {
-      return done(null, false, { message: "Mang xa hoi chua duoc ket noi!" });
-    } else if (!socialConnected && logged) {
-      const [social, createSocial] = await Social.findOrCreate({
-        where: { name: provider },
-        default: { name: provider },
+    if (request.user) {
+      await UserSocial.findOrCreate({
+        where: {
+          userId: request.user.id,
+          providerId: social.id,
+          externalId: id,
+        },
+        default: {
+          userId: request.user.id,
+          providerId: social.id,
+          externalId: id,
+        },
       });
-      await user.addSocial(social);
-      return done(null, user);
-    } else if (socialConnected && !logged) {
-      return done(null, user);
+      return done(null, request.user);
+    } else {
+      const userSocial = await UserSocial.findOne({
+        where: { providerId: social.id, externalId: id },
+      });
+      if (userSocial) {
+        const user = await User.findByPk(userSocial.userId);
+        return done(null, user);
+      }
     }
-    
-   
-    
- 
+
+    return done(null, false, {
+      message:
+        "Authentication failed! There is no account link to this social account!",
+    });
   }
 );

@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     if (token) {
       next();
     } else {
-      res.clearCookie("lgt");
+      
       req.logout((err) => {
         if (err) {
           next();

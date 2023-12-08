@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
       res.redirect("/" + type.name);
     }
   } catch (error) {
-    res.redirect("/auth/login")
+    console.log(error);
   }
 
   next();

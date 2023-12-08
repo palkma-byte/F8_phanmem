@@ -5,4 +5,9 @@ module.exports = {
     console.log();
     res.render("admin/index", { user });
   },
+  manager: async (req, res) => {
+    const user = req.user;
+    
+    res.render("admin/user-manager", { user });
+  },
 };
