@@ -23,7 +23,7 @@
         />
       </div>
       <div class="info">
-        <a href="#" class="d-block">Alexander Pierce</a>
+        <a href="#" class="d-block"><%= user.name %></a>
       </div>
     </div>
 
@@ -40,10 +40,21 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
         <li class="nav-item menu-open">
-          <a href="#" class="nav-link active">
+          <a href="/" class="nav-link ">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
-              Tổng quan
+              Trang chủ
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          
+        </li>
+
+        <li class="nav-item menu-open">
+          <a href="/admin/manage" class="nav-link ">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Quản lý user
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>

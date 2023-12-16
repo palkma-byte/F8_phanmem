@@ -25,6 +25,9 @@ const isGuest = require("../src/http/middlewares/isGuest");
 const loggedOneDevice = require("../src/http/middlewares/loggedOneDevice");
 const getType = require("../src/http/middlewares/CheckTypeMiddleware");
 
+//run schedule
+require("./scheduler")
+
 var app = express();
 
 // view engine setup

@@ -5,6 +5,8 @@ const md5 = require("md5");
 const otpGenerator = require("otp-generator");
 const jwt = require("jsonwebtoken");
 const { use } = require("passport");
+const Event = require("../../../core/Event");
+const SendMail = require("../../../jobs/SendMail");
 
 module.exports = {
   login: (req, res) => {
@@ -68,13 +70,14 @@ module.exports = {
     } catch (error) {
       req.flash("error", "Dang ky khong thanh cong");
     }
-    const mailOptions = {
-      from: process.env.MAIL_FROM,
-      to: email,
-      subject: "Email xac thuc tai khoan",
-      html: `Ma xac thuc cua ban la ${otp}`,
-    };
-    await transporter.sendMail(mailOptions);
+
+    new Event(
+      new SendMail({
+        email: email,
+        subject: "Email xac thuc tai khoan",
+        content: `Ma xac thuc cua ban la ${otp}`,
+      })
+    );
 
     res.redirect("verify");
   },
@@ -132,15 +135,15 @@ module.exports = {
     var token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
       expiresIn: "2 min",
     });
-    req.flash("success", "Email thay doi mat khau da duoc gui di!");
-    const mailOptions = {
-      from: process.env.MAIL_FROM,
-      to: email,
-      subject: "Email thay doi mat khau",
-      html: `Click vao link sau de chuyen den trang thay doi mat khau <a href="http://localhost:3001/auth/new-password/${token}">Click Here!</a> (Link se het han sau 2 phut)`,
-    };
-    const sendMail = await transporter.sendMail(mailOptions);
 
+    new Event(
+      new SendMail({
+        email: email,
+        subject: "Email thay doi mat khau",
+        content: `Click vao link sau de chuyen den trang thay doi mat khau <a href="http://localhost:3001/auth/new-password/${token}">Click Here!</a> (Link se het han sau 2 phut)`,
+      })
+    );
+    req.flash("success", "Email thay doi mat khau da duoc gui di!");
     res.redirect("login");
   },
   logout: async (req, res, next) => {
@@ -148,7 +151,7 @@ module.exports = {
       await LoginToken.destroy({ where: { token: req.cookies.lgt } });
       res.clearCookie("lgt");
     } catch (error) {
-     console.log(error);
+      console.log(error);
     }
     req.logout(async (err) => {
       if (err) {
