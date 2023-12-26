@@ -12,10 +12,12 @@ module.exports = {
   login: (req, res) => {
     const flashMsg = req.flash("error")[0];
     const successMsg = req.flash("success")[0];
+    
     res.render("auth/login", {
       successMsg,
       flashMsg,
-      layout: "layout/auth.layout.ejs",      
+      layout: "layout/auth.layout.ejs",   
+      captcha: res.recaptcha 
     });
   },
   handleLogin: async (req, res) => {

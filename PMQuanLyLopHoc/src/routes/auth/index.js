@@ -2,11 +2,20 @@ var express = require("express");
 var router = express.Router();
 const passport = require("passport");
 
+//import Recaptcha from 'express-recaptcha' with options
+var Recaptcha = require("express-recaptcha").RecaptchaV3;
+var options = { hl: "vi", callback: "cb" };
+var recaptcha = new Recaptcha(
+  "6Lc4mTwpAAAAALG7yn8YoPHkuFjb1K724Iraxe7n",
+  "6Lc4mTwpAAAAABn1TPkjIsNUCWbGwdXqhavNAIwI",
+  options
+);
+
 const AuthController = require("../../http/controllers/auth/AuthController");
 const isUser = require("../../http/middlewares/isUser");
 const isGuest = require("../../http/middlewares/isGuest");
 /* GET home page. */
-router.get("/login", isUser, AuthController.login);
+router.get("/login", isUser, recaptcha.middleware.render, AuthController.login);
 
 router.get("/register", isUser, AuthController.register);
 router.post("/register", AuthController.handleRegister);
@@ -24,6 +33,19 @@ router.get("/remove/:social", isGuest, AuthController.removeSocial);
 router.post("/logout", AuthController.logout);
 router.post(
   "/login",
+  recaptcha.middleware.verify,
+  function (req, res, next) {
+    if (!req.recaptcha.error && req.recaptcha.data.score > 0.3) {
+      // success code
+      console.log("Success captcha");
+      next();
+    } else {
+      // error code
+      console.log("Ga");
+      req.flash("error", "Captcha thất bại, vui lòng thử lại!");
+      res.redirect("/auth/login");
+    }
+  },
   passport.authenticate("local", {
     // successRedirect: "/admin",
     failureRedirect: "/auth/login",
