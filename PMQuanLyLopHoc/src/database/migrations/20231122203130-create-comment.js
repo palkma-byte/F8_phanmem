@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       classId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,references: { model: "Classes", key: "id", },
       },
       title: {
         type: Sequelize.STRING
@@ -19,10 +19,10 @@ module.exports = {
         type: Sequelize.TEXT
       },
       parentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,references: { model: "Comments", key: "id", },
       },
       studentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,references: { model: "Users", key: "id", },
       },
       attachment: {
         type: Sequelize.STRING

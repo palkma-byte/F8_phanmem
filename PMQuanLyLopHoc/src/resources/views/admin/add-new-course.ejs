@@ -1,0 +1,95 @@
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="/" class="h1">Phan mem <b>F8</b></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Add new Course</p>
+
+                <form action="" method="post">
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Tên khóa học"
+                            name="name"
+                            required
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Giá (nghìn đồng)"
+                            name="price"
+                            required
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="input-group mb-3">
+                        <select class="form-control" name="typeId" required>
+                            <option value="" disabled selected>Tình trạng học thử</option>
+                          
+                            <option value="0">Cần đăng ký</option>
+                            <option value="1">Có thể học thử</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Số lượng (lớp học)"
+                            name="quantity"
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Thời lượng (buổi)"
+                            name="duration"
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-location-dot"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Add new course
+                            </button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.form-box -->
+        </div>
+        <!-- /.card -->
+    </div>
+</body>

@@ -2,6 +2,7 @@ const { User, Type } = require("../../../models");
 const { ROW_PER_PAGE } = process.env;
 const { Op } = require("sequelize");
 const xlsx = require("node-xlsx").default;
+var generator = require("generate-password");
 const Event = require("../../../core/Event");
 const SendMail = require("../../../jobs/SendMail");
 let data;
@@ -13,9 +14,9 @@ module.exports = {
   },
   manager: async (req, res) => {
     const user = req.user;
-    const { page = 1, keyword = "" } = req.query;
+    const { page = 1, keyword = "", pageSize = 5 } = req.query;
 
-    const offset = (page - 1) * ROW_PER_PAGE;
+    const offset = (page - 1) * pageSize;
 
     const option = {
       attributes: [
@@ -27,9 +28,9 @@ module.exports = {
         "typeId",
         "firstLogin",
       ],
-      order: [["id", "DESC"]],
+      order: [["id", "ASC"]],
       offset: offset,
-      limit: +ROW_PER_PAGE,
+      limit: +pageSize,
       where: {
         [Op.or]: [
           { name: { [Op.substring]: keyword } },
@@ -43,7 +44,7 @@ module.exports = {
     };
     const { count, rows } = await User.findAndCountAll(option);
     data = rows;
-    const totalPage = Math.ceil(count / ROW_PER_PAGE);
+    const totalPage = Math.ceil(count / pageSize);
 
     res.render("admin/user-manager", {
       user,
@@ -52,6 +53,7 @@ module.exports = {
       page,
       totalPage,
       keyword,
+      pageSize,
     });
   },
   excel: (req, res) => {
@@ -115,7 +117,27 @@ module.exports = {
     res.render("admin/add-new-user", { user });
   },
   handleAddUser: async (req, res) => {
-    console.log(req.body);
+    const { email } = req.body;
+    const checkUser = await User.findOne({ where: { email: email } });
+    if (checkUser) {
+      return res.redirect("/admin/manage");
+    }
+    const passwordGen = generator.generate({
+      length: 10,
+      numbers: true,
+    });
+
+    new Event(
+      new SendMail({
+        email: email,
+        subject: "Mật khẩu tại F8 phần mềm",
+        content: `Chúc mừng bạn đã được thiết lập tài khoản mới tại F8 phần mềm!
+         Vui lòng sử dụng email ${email} và mật khẩu ${passwordGen} để đăng nhập.`,
+      })
+    );
+    req.body.password = passwordGen;
+    req.body.firstLogin = 1;
+    await User.create(req.body);
     res.redirect("/admin/manage");
   },
 };

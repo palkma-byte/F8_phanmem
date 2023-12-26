@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      ExercisesSubmit.belongsTo(models.Class),
+      ExercisesSubmit.belongsTo(models.Exercise)
     }
   }
   ExercisesSubmit.init({

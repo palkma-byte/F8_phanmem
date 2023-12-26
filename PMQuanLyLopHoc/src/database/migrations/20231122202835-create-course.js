@@ -15,9 +15,7 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      teacherId: {
-        type: Sequelize.INTEGER
-      },
+      
       tryLearn: {
         type: Sequelize.INTEGER
       },

@@ -15,13 +15,15 @@ module.exports = {
     res.render("auth/login", {
       successMsg,
       flashMsg,
-      layout: "layout/auth.layout.ejs",
+      layout: "layout/auth.layout.ejs",      
     });
   },
   handleLogin: async (req, res) => {
     const token = md5(Date.now() + Math.random());
     await LoginToken.destroy({ where: { userId: req.user.id } });
     await LoginToken.create({ userId: req.user.id, token: token });
+
+    // Handle verification success
     res.cookie("lgt", token);
     switch (req.user.typeId) {
       case 1:
@@ -37,7 +39,8 @@ module.exports = {
         res.redirect("/");
         break;
     }
-    //res.redirect("/admin");
+
+    
   },
   register: (req, res) => {
     res.render("auth/register", { layout: "layout/auth.layout.ejs" });

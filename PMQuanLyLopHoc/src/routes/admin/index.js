@@ -1,16 +1,25 @@
 var express = require("express");
 var router = express.Router();
 
-const AdminController = require("../../http/controllers/admin/AdminController");
+const UserController = require("../../http/controllers/admin/user.controller");
+const CourseController = require("../../http/controllers/admin/course.controller");
 
 /* GET home page. */
-router.get("/", AdminController.index);
-router.get("/manage", AdminController.manager);
-router.get("/manage/update/:id", AdminController.updateUser);
-router.post("/manage/update/:id", AdminController.handleUpdateUser);
-router.post("/manage/delete/:id", AdminController.deleteUser);
-router.get("/manage/export-excel", AdminController.excel);
-router.get("/manage/add", AdminController.addNewUser);
-router.post("/manage/add", AdminController.handleAddUser);
+router.get("/", UserController.index);
+//user manager
+router.get("/manage", UserController.manager);
+router.get("/manage/update/:id", UserController.updateUser);
+router.post("/manage/update/:id", UserController.handleUpdateUser);
+router.post("/manage/delete/:id", UserController.deleteUser);
+router.get("/manage/export-excel", UserController.excel);
+router.get("/manage/add", UserController.addNewUser);
+router.post("/manage/add", UserController.handleAddUser);
+//course manager
+router.get("/course", CourseController.manageCourse);
+router.get("/course/add", CourseController.addCourse);
+router.post("/course/add", CourseController.handleAddCourse);
+router.get("/course/update/:id", CourseController.manageCourse);
+router.get("/course/delete/:id", CourseController.manageCourse);
+router.get("/course/manage-class/:id", CourseController.manageCourse);
 
 module.exports = router;

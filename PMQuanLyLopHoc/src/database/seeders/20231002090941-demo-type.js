@@ -16,20 +16,18 @@ module.exports = {
       "Types",
       [
         {
+          id: 1,
           name: "student",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
+          id: 2,
           name: "teacher",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        {
-          name: "admin",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+        { id: 3, name: "admin", createdAt: new Date(), updatedAt: new Date() },
       ],
       {}
     );
@@ -42,6 +40,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Types', null, {});
+    await queryInterface.bulkDelete("Types", null, {});
   },
 };

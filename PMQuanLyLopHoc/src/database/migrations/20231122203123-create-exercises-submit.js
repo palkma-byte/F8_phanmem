@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       studentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,references: { model: "Users", key: "id", },
       },
       content: {
         type: Sequelize.TEXT
@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       exerciseId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,references: { model: "Exercises", key: "id", },
       },
       createdAt: {
         allowNull: false,

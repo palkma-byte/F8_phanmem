@@ -13,7 +13,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       moduleId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "CourseModules", key: "id" },
       },
       createdAt: {
         allowNull: false,
