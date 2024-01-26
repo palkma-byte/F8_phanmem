@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       schedule: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       timeLearn: {
         type: Sequelize.STRING

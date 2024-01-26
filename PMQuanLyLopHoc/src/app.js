@@ -10,7 +10,7 @@ var LocalStrategy = require("passport-local");
 const session = require("express-session");
 var flash = require("connect-flash");
 const { User } = require("./models");
-
+// const fileUpload = require('express-fileupload');
 
 const localPassport = require("./passport/localPassport");
 const googlePassport = require("./passport/googlePassport");
@@ -27,10 +27,11 @@ const loggedOneDevice = require("../src/http/middlewares/loggedOneDevice");
 const getType = require("../src/http/middlewares/CheckTypeMiddleware");
 
 //run schedule
-require("./scheduler")
+require("./scheduler");
 
 var app = express();
 
+// app.use(fileUpload())
 // view engine setup
 
 app.set("views", path.join(__dirname, "resources", "views"));
@@ -42,6 +43,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, "../public")));
 // app.use(express.static("../public"));
 

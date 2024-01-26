@@ -2,18 +2,20 @@
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="/" class="h1"><b>Admin</b>LTE</a>
+                <a href="/" class="h1">Phan mem <b>F8</b></a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Add new User</p>
+                <p class="login-box-msg">Update Course <%= course.name %></p>
 
                 <form action="" method="post">
+                    <p>Tên</p>
                     <div class="input-group mb-3">
                         <input
                             type="text"
                             class="form-control"
-                            placeholder="Full name"
+                            placeholder="Tên khóa học"
                             name="name"
+                            value="<%= course.name %>"
                             required
                         />
                         <div class="input-group-append">
@@ -22,12 +24,14 @@
                             </div>
                         </div>
                     </div>
+                    <p>Giá (nghìn đồng)</p>
                     <div class="input-group mb-3">
                         <input
-                            type="email"
+                            type="number"
                             class="form-control"
-                            placeholder="Email"
-                            name="email"
+                            placeholder="Giá (nghìn đồng)"
+                            name="price"
+                            value="<%= course.price %>"
                             required
                         />
                         <div class="input-group-append">
@@ -37,22 +41,24 @@
                         </div>
                     </div>
                     
-
+                    <p>Tình trạng học thử</p>
                     <div class="input-group mb-3">
                         <select class="form-control" name="typeId" required>
-                            <option value="" disabled selected>Select User Type</option>
-                            <option value="3">Admin</option>
-                            <option value="2">Teacher</option>
-                            <option value="1">Student</option>
+                            <option value="" disabled selected>Tình trạng học thử</option>
+                           
+                            <option value="0" <% if(course.tryLearn == 0) {%> selected <% } %> >Cần đăng ký</option>
+                            <option value="1" <% if(course.tryLearn == 1) {%> selected <% } %>  >Có thể học thử</option>
+                          
                         </select>
                     </div>
-
+                    <p>Số lượng (lớp học)</p>
                     <div class="input-group mb-3">
                         <input
-                            type="text"
+                            type="number"
                             class="form-control"
-                            placeholder="Phone"
-                            name="phone"
+                            placeholder="Số lượng (lớp học)"
+                            name="quantity"
+                            value="<%= course.quantity %>"
                         />
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -60,12 +66,14 @@
                             </div>
                         </div>
                     </div>
+                    <p>Thời lượng (buổi)</p>
                     <div class="input-group mb-3">
                         <input
                             type="text"
                             class="form-control"
-                            placeholder="Address"
-                            name="address"
+                            placeholder="Thời lượng (buổi)"
+                            name="duration"
+                            value="<%= course.duration %>"
                         />
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -80,7 +88,7 @@
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">
-                                Add new user
+                                Update
                             </button>
                         </div>
                         <!-- /.col -->

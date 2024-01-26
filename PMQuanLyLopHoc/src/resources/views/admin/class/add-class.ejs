@@ -1,0 +1,99 @@
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="/" class="h1">Phan mem <b>F8</b></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Add new Class of <%= course.name %> course</p>
+
+                <form action="" method="post"> <!-- Make sure to set the correct action URL -->
+                    
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Name"
+                            name="name"
+                            required
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="So buoi hoc"
+                            name="quantity"
+                            required
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Ngay khai giang</p>
+                    <div class="input-group mb-3">
+                        <input
+                            type="date"
+                            class="form-control"
+                            placeholder="Start Date, (end date auto calculate)"
+                            name="startDate"
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Lich hoc</p>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text"><span class="fas fa-calendar"></span></label>
+                        <div class="form-control" id="selected-days" style="height: auto; min-height: 100px; overflow-y: auto;">
+                            <label><input type="checkbox" name="schedule" value="Monday"> Monday</label>
+                            <label><input type="checkbox" name="schedule" value="Tuesday"> Tuesday</label>
+                            <label><input type="checkbox" name="schedule" value="Wednesday"> Wednesday</label>
+                            <label><input type="checkbox" name="schedule" value="Thursday"> Thursday</label>
+                            <label><input type="checkbox" name="schedule" value="Friday"> Friday</label>
+                            <label><input type="checkbox" name="schedule" value="Saturday"> Saturday</label>
+                            <label><input type="checkbox" name="schedule" value="Sunday"> Sunday</label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Learn Time (gio bat dau va gio ket thuc)"
+                            name="timeLearn"
+                        />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-hourglass"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Add new class
+                            </button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+            <!-- /.form-box -->
+        </div>
+        <!-- /.card -->
+    </div>
+</body>

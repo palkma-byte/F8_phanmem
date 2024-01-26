@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.TEXT,
     parentId: DataTypes.INTEGER,
     studentId: DataTypes.INTEGER,
-    attachment: DataTypes.STRING
+    attachment: DataTypes.BLOB
   }, {
     sequelize,
     modelName: 'Comment',

@@ -16,7 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       });
       Class.belongsTo(models.Course);
       Class.hasMany(models.Exercise);
-      Class.hasMany(models.Comment)
+      Class.hasMany(models.Comment);
+      Class.belongsToMany(models.User, {
+        through: "StudentsClass",
+        foreignKey: "classId",
+        as: "Student",
+      });
     }
   }
   Class.init(
@@ -25,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       quantity: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
-      schedule: DataTypes.INTEGER,
+      schedule: DataTypes.STRING,
       timeLearn: DataTypes.STRING,
       courseId: DataTypes.INTEGER,
     },

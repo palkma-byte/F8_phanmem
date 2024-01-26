@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Phan mem quan ly</title>
 
+  
+
     <!-- Google Font: Source Sans Pro -->
     <link
       rel="stylesheet"
@@ -43,6 +45,16 @@
     />
     <!-- summernote -->
     <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css" />
+    <link rel="stylesheet" href="/plugins/codemirror/codemirror.css">
+  <link rel="stylesheet" href="/plugins/codemirror/theme/monokai.css">
+  <style>
+    pre {
+        background-color: #e0dede; 
+        padding: 15px;
+        border-radius: 5px;
+         
+    }
+</style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -78,12 +90,9 @@
         <!-- Main content -->
         <section class="content">
           <div class="container-fluid">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">Dashboard</div>
-              </div>
+            
               <div class="card-body"><%- body %></div>
-            </div>
+           
           </div>
           <!-- /.container-fluid -->
         </section>
@@ -92,11 +101,11 @@
       <!-- /.content-wrapper -->
       <footer class="main-footer">
         <strong
-          >Copyright &copy; <%= new Date().getFullYear() %> by Học viên F8
+          >Copyright &copy; <%= new Date().getFullYear() %> by Pham Hoang F8
         </strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
-          <b>Version</b> 3.2.0
+          <b>Version</b> 0.0.1
         </div>
       </footer>
 
@@ -138,9 +147,14 @@
     <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/assets/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-     -->
+    
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <!-- CodeMirror -->
+    <script src="/plugins/codemirror/codemirror.js"></script>
+    <script src="/plugins/codemirror/mode/css/css.js"></script>
+    <script src="/plugins/codemirror/mode/xml/xml.js"></script>
+    <script src="/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/assets/js/pages/dashboard.js"></script>
+   
   </body>
 </html>

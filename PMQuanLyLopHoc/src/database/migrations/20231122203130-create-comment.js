@@ -25,7 +25,7 @@ module.exports = {
         type: Sequelize.INTEGER,references: { model: "Users", key: "id", },
       },
       attachment: {
-        type: Sequelize.STRING
+        type: Sequelize.BLOB
       },
       createdAt: {
         allowNull: false,
