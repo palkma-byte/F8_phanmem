@@ -5,6 +5,7 @@ module.exports = async (req, res, next) => {
       where: { token: req.cookies.lgt },
     });
     if (token) {
+      res.locals.userName = req.user?.name;
       next();
     } else {
       res.clearCookie("lgt");

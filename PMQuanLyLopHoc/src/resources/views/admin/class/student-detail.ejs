@@ -1,0 +1,49 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              Tinh trang lop hoc cua hoc vien <%= student.name %>
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a href="" class="btn btn-info mr-2">Export excel</a>
+              </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Lop hoc</th>
+                    <th>Tinh trang</th>
+                    <th>Ngay hoan thanh</th>
+                    <th>Ngày bảo lưu</th>
+                    <th>Ngày nhập học trở lại</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% studentDetail.forEach(row => { %>
+                  <tr>
+                    <td><%= row.Class.name %></td>
+                    <td><%= row.LearningStatus.name%></td>
+                    <td><%= moment(row.completedDate).format('LL') %></td>
+                    <td><%= moment(row.dropDate).format('LL')%></td>
+                    <td><%= moment(row.recover).format('LL')%></td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,4 +1,10 @@
-const { Course, Class, StudentsClass } = require("../../../models");
+const {
+  Course,
+  Class,
+  StudentsClass,
+  LearningStatus,
+  User,
+} = require("../../../models");
 var moment = require("moment");
 
 module.exports = {
@@ -126,10 +132,30 @@ module.exports = {
   studentDetail: async (req, res) => {
     try {
       const studentId = req.params.id;
-      const row = await StudentsClass.findAll({
-        where: { studentId: studentId },
+      const student = await User.findByPk(studentId);
+      const studentDetail = await StudentsClass.findAll(
+        {
+          include: [
+            { model: User, where: { id: studentId } },
+            { model: LearningStatus },
+            { model: Class },
+          ],
+        }
+      );
+    
+      res.render("admin/class/student-detail", {
+        student,
+        studentDetail,
+        moment,
       });
-      res.send(row);
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  updateStudentDetail: async (req, res) => {
+    try {
+      const studentId = req.params.id;
     } catch (error) {
       console.log(error);
       res.render("error");

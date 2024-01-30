@@ -5,9 +5,10 @@ module.exports = async (req, res, next) => {
       where: { token: req.cookies.lgt },
     });
     if (token) {
+     
       res.redirect("/");
     } else {
-      res.clearCookie("lgt")
+      res.clearCookie("lgt");
       req.logout((err) => {
         if (err) {
           next();
@@ -16,6 +17,6 @@ module.exports = async (req, res, next) => {
       });
     }
   }
-  
+
   next();
 };

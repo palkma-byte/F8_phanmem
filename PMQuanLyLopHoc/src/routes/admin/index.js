@@ -32,12 +32,19 @@ router.get("/course/manage-modules/:id", CourseController.updateCourse);
 router.get("/course/manage-class/:id", ClassController.manageClass);
 router.get("/course/manage-class/add/:id", ClassController.addClass);
 router.post("/course/manage-class/add/:id", ClassController.handleAddClass);
+
 router.get("/class/update/:id", ClassController.updateClass);
 router.post("/class/update/:id", ClassController.handleUpdateClass);
 router.post("/class/delete/:id", ClassController.deleteClass);
+
 router.get("/class/manage-student/:id", ClassController.manageStudent);
-router.get("/class/manage-student/student-detail/:id", ClassController.studentDetail);
-router.get("/class/manage-teacher/:id", ClassController.manageTeacher)
+// router.get("/class/manage-student/update/:id", ClassController);
+router.get(
+  "/class/manage-student/student-detail/:id",
+  ClassController.studentDetail
+);
+router.get("/class/manage-teacher/:id", ClassController.manageTeacher);
+
 //student manage
 router.get("/student/manage", StudentController.studentList);
 

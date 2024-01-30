@@ -1,9 +1,21 @@
-const { User, Class, Course } = require("./src/models");
+const {
+  User,
+  Class,
+  Course,
+  LearningStatus,
+  StudentsClass,
+} = require("./src/models");
 
-
-async function class1() {
-  const class1 = await Class.findByPk(6);
-  console.log(await class1.getTeacher());
+async function test() {
+  console.log(
+    await StudentsClass.findAll({
+      include: [
+        { model: User, where: { id: 1 } },
+        { model: LearningStatus },
+        { model: Class },
+      ],
+    })
+  );
 }
 
-class1();
+test();
