@@ -32,9 +32,11 @@
                   <tr>
                     <td><%= row.Class.name %></td>
                     <td><%= row.LearningStatus.name%></td>
-                    <td><%= moment(row.completedDate).format('LL') %></td>
-                    <td><%= moment(row.dropDate).format('LL')%></td>
-                    <td><%= moment(row.recover).format('LL')%></td>
+                    <td>
+                      <%= moment(row.completedDate).format('DD/MM/YYYY') %>
+                    </td>
+                    <td><%= moment(row.dropDate).format('DD/MM/YYYY')%></td>
+                    <td><%= moment(row.recover).format('DD/MM/YYYY')%></td>
                   </tr>
                   <% }); %>
                 </tbody>

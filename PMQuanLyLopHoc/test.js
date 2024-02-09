@@ -7,15 +7,8 @@ const {
 } = require("./src/models");
 
 async function test() {
-  console.log(
-    await StudentsClass.findAll({
-      include: [
-        { model: User, where: { id: 1 } },
-        { model: LearningStatus },
-        { model: Class },
-      ],
-    })
-  );
+  const abc = await Class.findByPk(6);
+  console.log(new Date(abc.timeLearn + " " + abc.startDate));
 }
 
 test();

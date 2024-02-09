@@ -8,6 +8,7 @@ const CourseController = require("../../http/controllers/admin/course.controller
 const ClassController = require("../../http/controllers/admin/class.controller");
 const CommentController = require("../../http/controllers/admin/comment.controller");
 const StudentController = require("../../http/controllers/admin/student.controller");
+const ScheduleController = require("../../http/controllers/admin/schedule.controller");
 
 /* GET home page. */
 router.get("/", UserController.index);
@@ -55,5 +56,9 @@ router.post(
   upload.single("fileInput"),
   CommentController.handlePost
 );
+
+// test schedule
+router.get("/schedule", ScheduleController.index);
+router.get("/api/schedule", ScheduleController.startDate);
 
 module.exports = router;

@@ -1,104 +1,107 @@
 <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-                
-              <h3 class="card-title">Danh sach Course</h3>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Danh sach Course</h3>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a href="/admin/course/add" class="btn btn-success mr-2"
+                  ><i class="fas fa-plus-circle"></i> Add new course</a
+                >
+                <a href="/admin/course/export-excel" class="btn btn-info mr-2"
+                  ><i class="fas fa-file-excel"></i> Export excel</a
+                >
+              </div>
+              <div class="col-6 d-flex align-items-center">
+                <form action="" class="mb-3 d-flex">
+                  <div class="col-7">
+                    <input
+                      type="search"
+                      name="keyword"
+                      class="form-control"
+                      placeholder="Từ khóa tìm kiếm..."
+                      value="<%= keyword %>"
+                    />
+                  </div>
+                  <div class="col-2 d-grid">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
+
+            <!-- /.card-header -->
             <div class="card-body">
-              <div class="row mb-3">
-                <div class="col-6">
-                  <a href="/admin/course/add" class="btn btn-success mr-2">Add new course</a>
-                  <a href="/admin/course/export-excel" class="btn btn-info mr-2">Export excel</a>
-                </div>
-                <div class="col-6 d-flex align-items-center">
-                  <form action="" class="mb-3 d-flex">
-                    <div class="col-7">
-                      <input
-                        type="search"
-                        name="keyword"
-                        class="form-control"
-                        placeholder="Từ khóa tìm kiếm..."
-                        value="<%= keyword %>"
-                      />
-                    </div>
-                    <div class="col-2 d-grid">
-                      <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-  
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Price (nghìn đồng)</th>
-                      <th>Tình trạng học thử</th>
-                      
-                      <th>Thời lượng (buổi)</th>
-                      <th>Quản lý lớp của khóa học</th>
-                      <th>Quản lý chương học</th>
-                      <th>Update</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% courses.forEach(course => { %>
-                    <tr>
-                      <td><%= course.id %></td>
-                      <td><%= course.name %></td>
-                      <td><%= course.price %></td>
-                      <td><%= course.tryLearn===1?"Có thể học thử":"Cần đăng ký" %></td>
-                      
-                      <td><%= course.duration %></td>
-                      <td>
-                        <a
-                          href="/admin/course/manage-class/<%= course.id %>"
-                          class="btn btn-primary mr-2"
-                          >Manage Class</a
-                        >
-                      </td>
-                      <td>
-                        <a
-                          href="/admin/course/manage-modules/<%= course.id %>"
-                          class="btn btn-primary mr-2"
-                          >Manage Modules</a
-                        >
-                      </td>
-                      <td>
-                        <a
-                          href="/admin/course/update/<%= course.id %>"
-                          class="btn btn-primary mr-2"
-                          >Update</a
-                        >
-                      </td>
-                      <td>
-                        <form
-                          action="/admin/course/delete/<%= course.id %>"
-                          method="post"
-                          style="display: inline"
-                        >
-                          <button type="submit" class="btn btn-danger">
-                            Delete
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                    <% }); %>
-                  </tbody>
-                </table>
-              </div>
-             
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price (nghìn đồng)</th>
+                    <th>Tình trạng học thử</th>
+                    <th>Thời lượng (buổi)</th>
+                    <th>Quản lý lớp của khóa học</th>
+                    <th>Quản lý chương học</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% courses.forEach(course => { %>
+                  <tr>
+                    <td><%= course.id %></td>
+                    <td><%= course.name %></td>
+                    <td><%= course.price %></td>
+                    <td>
+                      <%= course.tryLearn===1?"Có thể học thử":"Cần đăng ký" %>
+                    </td>
+                    <td><%= course.duration %></td>
+                    <td>
+                      <a
+                        href="/admin/course/manage-class/<%= course.id %>"
+                        class="btn btn-primary mr-2"
+                        ><i class="fas fa-cogs"></i
+                      ></a>
+                    </td>
+                    <td>
+                      <a
+                        href="/admin/course/manage-modules/<%= course.id %>"
+                        class="btn btn-primary mr-2"
+                        ><i class="fas fa-book"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <a
+                        href="/admin/course/update/<%= course.id %>"
+                        class="btn btn-primary mr-2"
+                        ><i class="fas fa-edit"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <form
+                        action="/admin/course/delete/<%= course.id %>"
+                        method="post"
+                        style="display: inline"
+                      >
+                        <button type="submit" class="btn btn-danger">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

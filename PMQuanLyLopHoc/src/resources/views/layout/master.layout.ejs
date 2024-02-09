@@ -4,16 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Phan mem quan ly</title>
-
-  
-
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
     <!-- Google Font: Source Sans Pro -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
     />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+
+    <script
+      src="https://kit.fontawesome.com/5b0a3e0df5.js"
+      crossorigin="anonymous"
+    ></script>
+
     <!-- Ionicons -->
     <link
       rel="stylesheet"
@@ -44,33 +48,21 @@
       href="/plugins/daterangepicker/daterangepicker.css"
     />
     <!-- summernote -->
-    <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css" />
-    <link rel="stylesheet" href="/plugins/codemirror/codemirror.css">
-  <link rel="stylesheet" href="/plugins/codemirror/theme/monokai.css">
-  <style>
-    pre {
-        background-color: #e0dede; 
+    <!-- <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css" />
+    <link rel="stylesheet" href="/plugins/codemirror/codemirror.css" />
+    <link rel="stylesheet" href="/plugins/codemirror/theme/monokai.css" /> -->
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
+    <style>
+      pre {
+        background-color: #e0dede;
         padding: 15px;
         border-radius: 5px;
-         
-    }
-</style>
+      }
+    </style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-      <!-- Preloader -->
-      <div
-        class="preloader flex-column justify-content-center align-items-center"
-      >
-        <img
-          class="animation__shake"
-          src="/assets/img/AdminLTELogo.png"
-          alt="AdminLTELogo"
-          height="60"
-          width="60"
-        />
-      </div>
-
       <!-- Navbar -->
       <%- include("partials/header") %>
       <!-- Main Sidebar Container -->
@@ -78,22 +70,9 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-          <div class="container-fluid">
-            <%- include("partials/breadcrumb") %>
-          </div>
-          <!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
         <!-- Main content -->
         <section class="content">
-          <div class="container-fluid">
-            
-              <div class="card-body"><%- body %></div>
-           
-          </div>
+          <div class="container-fluid"><%- body %></div>
           <!-- /.container-fluid -->
         </section>
         <!-- /.content -->
@@ -141,20 +120,21 @@
     <script src="/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Summernote -->
-    <script src="/plugins/summernote/summernote-bs4.min.js"></script>
+
     <!-- overlayScrollbars -->
     <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/assets/js/adminlte.js"></script>
-    
+    <!-- fullCalendar 2.2.5 -->
+    <script src="../plugins/moment/moment.min.js"></script>
+    <script src="../plugins/fullcalendar/main.js"></script>
+
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <!-- CodeMirror -->
-    <script src="/plugins/codemirror/codemirror.js"></script>
-    <script src="/plugins/codemirror/mode/css/css.js"></script>
-    <script src="/plugins/codemirror/mode/xml/xml.js"></script>
-    <script src="/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
     <script src="/assets/js/pages/dashboard.js"></script>
-   
+    <!-- fullCalendar 2.2.5 -->
+    <script src="../plugins/moment/moment.min.js"></script>
+    <script src="../plugins/fullcalendar/main.js"></script>
+    <!-- Page specific script -->
   </body>
 </html>

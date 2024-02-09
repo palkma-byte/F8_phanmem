@@ -1,127 +1,107 @@
 <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Danh sach tat ca Class cua <%= course.name %></h3>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Danh sach tat ca Class cua <%= course.name %></h3>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a href="/admin/course/manage-class/add/<%= course.id %>" class="btn btn-success mr-2"><i class="fas fa-plus-circle"></i> Add new class</a>
+                <a href="/admin/course/class-export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Export excel</a>
+              </div>
+              <div class="col-6 d-flex align-items-center">
+                <div class="col-3">
+                  <form action="" class="mb-3 d-flex">
+                    <label class="mr-2">Items Display:</label>
+                    <select name="pageSize" class="form-control" onchange="this.form.submit()">
+                      <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
+                      <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
+                      <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
+                    </select>
+                  </form>
+                </div>
+              </div>
             </div>
+
+            <!-- /.card-header -->
             <div class="card-body">
-              <div class="row mb-3">
-                <div class="col-6">
-                  <a href="/admin/course/manage-class/add/<%= course.id %>" class="btn btn-success mr-2">Add new class</a>
-                  <a href="/admin/course/class-export-excel" class="btn btn-info mr-2">Export excel</a>
-                </div>
-                <div class="col-6 d-flex align-items-center">
-                  
-                  <div class="col-3">
-                    <form action="" class="mb-3 d-flex">
-                        <label class="mr-2">Items Display:</label>
-                        <select name="pageSize" class="form-control" onchange="this.form.submit()">
-                            <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
-                            <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
-                            <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
-                        </select>
-                    </form>
-                </div>
-                </div>
-              </div>
-  
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>So luong buoi hoc</th>
-                      <th>Ngay bat dau</th>
-                      <th>Ngay be giang</th>
-                      <th>Thoi khoa bieu</th>
-                      <th>Thoi gian hoc</th>
-                      <th>Quan ly hoc vien</th>
-                      <th>Quan ly giang vien</th>
-                      <th>Update</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% rows.forEach(row => { %>
-                    <tr>
-                      <td><%= row.id %></td>
-                      <td><%= row.name %></td>
-                      <td><%= row.quantity %></td>
-                      <td><%=  moment(row.startDate).format('LL') %></td>
-                      <td><%=  moment(row.endDate ).format('LL') %></td>
-                      <td><%= row.schedule %></td>
-                      <td><%= row.timeLearn %></td>
-                      <td>
-                        <a
-                          href="/admin/class/manage-student/<%= row.id %>"
-                          class="btn btn-primary mr-2"
-                          >Danh sach hoc vien</a
-                        >
-                      </td>
-                      <td>
-                        <a
-                          href="/admin/class/manage-teacher/<%= row.id %>"
-                          class="btn btn-primary mr-2"
-                          >Danh sach giang vien</a
-                        >
-                      </td>                    
-                      <td>
-                        <a
-                          href="/admin/class/update/<%= row.id %>"
-                          class="btn btn-primary mr-2"
-                          >Update</a
-                        >
-                      </td>
-                      <td>
-                        <form
-                          action="/admin/class/delete/<%= row.id %>"
-                          method="post"
-                          style="display: inline"
-                        >
-                          <button type="submit" class="btn btn-danger">
-                            Delete
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                    <% }); %>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-              <% if (totalPage > 1) { %>
-              <nav class="d-flex justify-content-end">
-                <ul class="pagination">
-                  <li class="page-item">
-                    <a class="page-link" href="?page=1">Đầu</a>
-                  </li>
-                  <% if (page > 1) { %>
-                  <li class="page-item">
-                    <a class="page-link" href="?page=<%= +page - 1 %>">Trước</a>
-                  </li>
-                  <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
-                  <li class="page-item <%= +page === +i ? 'active': '' %>">
-                    <a class="page-link" href="?page=<%= +i %>"><%= i %></a>
-                  </li>
-                  <% } %> <% if (page < totalPage ) { %>
-                  <li class="page-item">
-                    <a class="page-link" href="?page=<%= +page + 1 %>">Sau</a>
-                  </li>
-                  <% } %>
-                  <li class="page-item">
-                    <a class="page-link" href="?page=<%= totalPage %>">Cuối</a>
-                  </li>
-                </ul>
-              </nav>
-              <% } %>
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>So luong buoi hoc</th>
+                    <th>Ngay bat dau</th>
+                    <th>Ngay be giang</th>
+                    <th>Thoi khoa bieu</th>
+                    <th>Thoi gian hoc</th>
+                    <th>Quan ly hoc vien</th>
+                    <th>Quan ly giang vien</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% rows.forEach(row => { %>
+                  <tr>
+                    <td><%= row.id %></td>
+                    <td><%= row.name %></td>
+                    <td><%= row.quantity %></td>
+                    <td><%=  moment(row.startDate).format('DD/MM/YYYY') %></td>
+                    <td><%=  moment(row.endDate ).format('DD/MM/YYYY') %></td>
+                    <td><%= row.schedule %></td>
+                    <td><%= row.timeLearn %></td>
+                    <td>
+                      <a href="/admin/class/manage-student/<%= row.id %>" class="btn btn-primary mr-2"><i class="fas fa-users"></i> </a>
+                    </td>
+                    <td>
+                      <a href="/admin/class/manage-teacher/<%= row.id %>" class="btn btn-primary mr-2"><i class="fas fa-chalkboard-teacher"></i> </a>
+                    </td>                    
+                    <td>
+                      <a href="/admin/class/update/<%= row.id %>" class="btn btn-primary mr-2"><i class="fas fa-edit"></i> </a>
+                    </td>
+                    <td>
+                      <form action="/admin/class/delete/<%= row.id %>" method="post" style="display: inline">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
             </div>
+            <!-- /.card-body -->
+            <% if (totalPage > 1) { %>
+            <nav class="d-flex justify-content-end">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="?page=1">Đầu</a>
+                </li>
+                <% if (page > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= +page - 1 %>">Trước</a>
+                </li>
+                <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
+                <li class="page-item <%= +page === +i ? 'active': '' %>">
+                  <a class="page-link" href="?page=<%= +i %>"><%= i %></a>
+                </li>
+                <% } %> <% if (page < totalPage ) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= +page + 1 %>">Sau</a>
+                </li>
+                <% } %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= totalPage %>">Cuối</a>
+                </li>
+              </ul>
+            </nav>
+            <% } %>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>
