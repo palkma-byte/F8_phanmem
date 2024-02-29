@@ -1,31 +1,24 @@
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" style="background-color: #f8f9fa;">
   <div class="register-box">
     <div class="card card-outline card-primary">
-      <div class="card-header text-center">
-        <a href="/" class="h1"><b>Admin</b>LTE</a>
+      <div class="card-header text-center" style="background-color: #007bff; color: #fff; border-bottom: none; border-radius: 8px 8px 0 0;">
+        <a href="/" class="h1"><b style="color: #fff;">Admin</b>LTE</a>
       </div>
-      <div class="card-body">
-        <p class="login-box-msg">Update account</p>
+      <div class="card-body" style="padding: 30px 20px;">
+        <p class="login-box-msg" style="margin-bottom: 20px;">Update Account</p>
         <% if(flashMsg){ %>
-          <div class="alert alert-danger" role="alert">
-            <strong>Error!</strong> <%= flashMsg %>
-          </div>
-          <% } %> <% if(successMsg){ %>
-          <div class="alert alert-success" role="alert">
-            <strong>Success!</strong> <%= successMsg %>
-          </div>
-          <% } %>
-
+        <div class="alert alert-danger" role="alert" style="background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; padding: .75rem 1.25rem; margin-bottom: 20px;">
+          <strong>Error!</strong> <%= flashMsg %>
+        </div>
+        <% } %>
+        <% if(successMsg){ %>
+        <div class="alert alert-success" role="alert" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: .75rem 1.25rem; margin-bottom: 20px;">
+          <strong>Success!</strong> <%= successMsg %>
+        </div>
+        <% } %>
         <form action="/auth/update" method="post">
           <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Full name"
-              name="name"
-              value="<%= user.name %>"
-              required
-            />
+            <input type="text" class="form-control" placeholder="Full Name" name="name" value="<%= user.name %>" required />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -33,99 +26,61 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Email"
-              name="email"
-              value="<%= user.email %>"
-              disabled
-              required
-            />
+            <input type="email" class="form-control" placeholder="Email" name="email" value="<%= user.email %>" disabled required />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
           </div>
-
           <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Phone"
-              value="<%= user.phone %>"
-              name="phone"
-            />
+            <input type="text" class="form-control" placeholder="Phone" value="<%= user.phone %>" name="phone" />
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+                <span class="fas fa-phone"></span>
               </div>
             </div>
           </div>
           <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Address"
-              value="<%= user.address %>"
-              name="address"
-            />
+            <input type="text" class="form-control" placeholder="Address" value="<%= user.address %>" name="address" />
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-location-dot"></span>
+                <span class="fas fa-map-marker-alt"></span>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-4"></div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">
-                Cap nhat thong tin
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff;">
+                <i class="fas fa-save"></i> Update
               </button>
             </div>
-            <!-- /.col -->
           </div>
         </form>
-
-        <div class="social-auth-links text-center">
-          <a href="/auth/facebook" class="btn btn-block btn-primary">
-            <i class="fab fa-facebook mr-2"></i>
-            Lien ket Facebook
+        <div class="social-auth-links text-center" style="margin-top: 20px;">
+          <a href="/auth/facebook" class="btn btn-primary" style="background-color: #3b5998; border-color: #3b5998;">
+            <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="/auth/remove/facebook" class="btn btn-block btn-link text-danger">
-            <i class="fas fa-times-circle mr-2"></i>
-            Cancel Facebook Connection
+          <a href="/auth/remove/facebook" class="btn btn-link text-danger">
+            <i class="fas fa-times-circle"></i>
           </a>
-        
-          <a href="/auth/google" class="btn btn-block btn-danger">
-            <i class="fab fa-google mr-2"></i>
-            Lien ket Google
+          <a href="/auth/google" class="btn btn-danger" style="background-color: #ea4335; border-color: #ea4335;">
+            <i class="fab fa-google"></i>
           </a>
-          <a href="/auth/remove/google" class="btn btn-block btn-link text-danger">
-            <i class="fas fa-times-circle mr-2"></i>
-            Cancel Google Connection
+          <a href="/auth/remove/google" class="btn btn-link text-danger">
+            <i class="fas fa-times-circle"></i>
           </a>
-        
-          <a href="/auth/github" class="btn btn-block btn-dark">
-            <i class="fab fa-github mr-2"></i>
-            Lien ket GitHub
+          <a href="/auth/github" class="btn btn-dark" style="background-color: #333; border-color: #333;">
+            <i class="fab fa-github"></i>
           </a>
-          <a href="/auth/remove/github" class="btn btn-block btn-link text-danger">
-            <i class="fas fa-times-circle mr-2"></i>
-            Cancel GitHub Connection
+          <a href="/auth/remove/github" class="btn btn-link text-danger">
+            <i class="fas fa-times-circle"></i>
           </a>
         </div>
-
-        <p class="mb-1">
-          <a href="/">Quay lai trang chu</a>
+        <p class="mb-1" style="margin-top: 20px;">
+          <a href="/" style="color: #007bff;"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
         </p>
       </div>
-
-      <!-- /.form-box -->
     </div>
-
-    <!-- /.card -->
   </div>
 </body>

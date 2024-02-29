@@ -1,78 +1,138 @@
 <div class="container mt-5">
-  <h2>All Comment</h2>
+  <h2>All Comments</h2>
+  <% function renderReplies(replies) { %>
+  <% if (replies && replies.length > 0) { %>
+  <% replies.forEach(reply => { %>
+  <div class="comment-container">
+    <div class="card comment-card ml-5">
+      <div class="card-body">
+        <h5 class="card-title"><strong><%= reply.title %></strong></h5>
+        <p class="card-text"><%- reply.content %></p>
 
-  <% allComments.forEach(element => { %>
-  <div class="card comment-card">
-    <div class="card-body">
-      <h5 class="card-title"><strong><%= element.title %></strong></h5>
-      <p class="card-text">
-        <%- element.content %>
-      </p>
-    
+
+        <button class="btn btn-primary reply-btn" onclick="toggleReplyBox(this)">Reply</button>
+        <form method="post" action="/admin/reply" class="reply-form" style="display: none;">
+          <div class="form-group">
+            <label for="reply">Reply:</label>
+            <textarea class="form-control" name="reply" rows="3" required></textarea>
+            <input type="hidden" name="parentId" value="<%= reply.id %>">
+          </div>
+          <button type="submit" class="btn btn-primary">Post Reply</button>
+        </form>
+
+
+      </div>
+      <!-- Recursive call to display nested replies -->
+      <% renderReplies(reply.reply) %>
+    </div>
+  </div>
+
+
+  <% }); %>
+  <% } %>
+  <% } %>
+
+  <!-- Iterate over each comment -->
+  <% allComments.forEach(comment => { %>
+  <div class="comment-container">
+    <div class="card comment-card">
+      <div class="card-body">
+        <h5 class="card-title"><strong><%= comment.title %></strong></h5>
+        <p class="card-text">
+          <%- comment.content %>
+        </p>
+
+
+
+        <!-- Add a "Reply" button with onclick event to toggle reply box visibility -->
+        <button class="btn btn-primary reply-btn" onclick="toggleReplyBox(this)">Reply</button>
+
+        <!-- Include a form for replying to the comment (initially hidden) -->
+        <form method="post" action="/admin/reply" class="reply-form" style="display: none;">
+          <div class="form-group">
+            <label for="reply">Reply:</label>
+            <textarea class="form-control" name="reply" rows="3" required></textarea>
+            <input type="hidden" name="parentId" value="<%= comment.id %>"> <!-- Include the parent comment ID -->
+          </div>
+          <button type="submit" class="btn btn-primary">Post Reply</button> <!-- Keep button text as "Reply" -->
+        </form>
+      </div>
+      <!-- Placeholder for the replies -->
+      <div class="replies-placeholder">
+        <!-- Call the renderReplies function to render the replies -->
+        <% renderReplies(comment.reply) %>
+      </div>
     </div>
   </div>
   <% }); %>
 
+
+
   <h2>Leave a Comment</h2>
-  
-    <button type="button" class="btn btn-secondary" onclick="bold()">
-      <strong>B</strong>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="italic()">
-      <em>I</em>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="heading()">
-      <strong>H1</strong>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="link()">
-      <strong>Link</strong>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="unorderedList()">
-      <strong>•</strong>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="orderedList()">
-      <strong>1.</strong>
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="strikethrough()">
-      Strikethrough
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="code()">
-      Inline Code
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="blockCode()">
-      Block Code
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="horizontalRule()">
-      Horizontal Rule
-    </button>
-    <button type="button" class="btn btn-secondary" onclick="quote()">
-      Quote
-    </button>
-    <form method="post" id="commentForm" enctype="multipart/form-data">
+
+  <button type="button" class="btn btn-secondary" onclick="bold()">
+    <strong>B</strong>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="italic()">
+    <em>I</em>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="heading()">
+    <strong>H1</strong>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="link()">
+    <strong>Link</strong>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="unorderedList()">
+    <strong>•</strong>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="orderedList()">
+    <strong>1.</strong>
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="strikethrough()">
+    Strikethrough
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="code()">
+    Inline Code
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="blockCode()">
+    Block Code
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="horizontalRule()">
+    Horizontal Rule
+  </button>
+  <button type="button" class="btn btn-secondary" onclick="quote()">
+    Quote
+  </button>
+  <form method="post" id="commentForm" enctype="multipart/form-data">
     <div class="form-group">
       <label for="comment">Comment:</label>
 
-      <textarea
-        class="form-control"
-        id="comment"
-        name="comment"
-        rows="15"
-        required
-      ></textarea>
+      <textarea class="form-control" id="comment" name="comment" rows="15" required></textarea>
     </div>
     <div class="form-group">
       <label for="fileInput">Dinh kem anh: </label>
-      <input type="file" name="fileInput" id="fileInput" accept="image/*" >
-  </div>
+      <input type="file" name="fileInput" id="fileInput" accept="image/*">
+    </div>
 
     <button type="submit" class="btn btn-primary">Post Comment</button>
   </form>
 </div>
 <script>
+  function toggleReplyBox(button) {
+    // Find the closest container of the comment
+    const commentContainer = button.closest('.comment-container');
+
+    // Find the reply form within the comment container
+    const replyForm = commentContainer.querySelector('.reply-form');
+    // Toggle the visibility of the reply box
+    replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+  }
+
   function bold() {
     var commentBox = document.getElementById("comment");
     commentBox.value += "**Bold text**";
   }
+
   function italic() {
     var commentBox = document.getElementById("comment");
     commentBox.value += "_Italic text_";
@@ -97,6 +157,7 @@
     var commentBox = document.getElementById("comment");
     commentBox.value += "\n1. Item 1\n2. Item 2\n3. Item 3";
   }
+
   function strikethrough() {
     var commentBox = document.getElementById("comment");
     commentBox.value += "~~Strikethrough text~~";

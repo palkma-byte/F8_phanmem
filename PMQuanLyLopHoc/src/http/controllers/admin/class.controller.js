@@ -4,6 +4,7 @@ const {
   StudentsClass,
   LearningStatus,
   User,
+  StudentsAttendance,
 } = require("../../../models");
 var moment = require("moment");
 
@@ -133,16 +134,14 @@ module.exports = {
     try {
       const studentId = req.params.id;
       const student = await User.findByPk(studentId);
-      const studentDetail = await StudentsClass.findAll(
-        {
-          include: [
-            { model: User, where: { id: studentId } },
-            { model: LearningStatus },
-            { model: Class },
-          ],
-        }
-      );
-    
+      const studentDetail = await StudentsClass.findAll({
+        include: [
+          { model: User, where: { id: studentId } },
+          { model: LearningStatus },
+          { model: Class },
+        ],
+      });
+
       res.render("admin/class/student-detail", {
         student,
         studentDetail,
@@ -167,6 +166,108 @@ module.exports = {
       const class1 = await Class.findByPk(classId);
       const teachers = await class1.getTeacher();
       res.render("admin/class/teacher-class", { moment, class1, teachers });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  checkAttendance: async (req, res) => {
+    let classSchedule = [];
+    const classId = req.params.id;
+    try {
+      const attendedList = await StudentsAttendance.findAll({
+        where: { classId: classId, status: 1 },
+      });
+      const classValue = await Class.findByPk(classId);
+      const students = await classValue.getStudent();
+      classValue.schedule.split(", ").forEach((weekdays) => {
+        function getWeekdaysInRange(startDate, endDate, dayOfWeek) {
+          var weekdays = [];
+          var currentDate = new Date(startDate);
+          var startDate = new Date(startDate);
+          var endDate = new Date(endDate);
+
+          // Convert weekday to JavaScript's day numbering (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+          var targetWeekday; // Adjusting to match JavaScript's day numbering
+          switch (dayOfWeek) {
+            case "Sunday":
+              targetWeekday = 0;
+              break;
+            case "Monday":
+              targetWeekday = 1;
+              break;
+            case "Tuesday":
+              targetWeekday = 2;
+              break;
+            case "Wednesday":
+              targetWeekday = 3;
+              break;
+            case "Thursday":
+              targetWeekday = 4;
+              break;
+            case "Friday":
+              targetWeekday = 5;
+              break;
+            case "Saturday":
+              targetWeekday = 6;
+              break;
+          }
+
+          // Iterate through each day within the range
+          while (currentDate <= endDate) {
+            // Check if the current day matches the target weekday
+            if (currentDate.getDay() === targetWeekday) {
+              // If it's the target weekday, add it to the array
+              weekdays.push(new Date(currentDate));
+            }
+            // Move to the next day
+            currentDate.setDate(currentDate.getDate() + 1);
+          }
+          return weekdays;
+        }
+
+        classSchedule.push(
+          ...getWeekdaysInRange(
+            classValue.startDate,
+            classValue.endDate,
+            weekdays
+          )
+        );
+      });
+      const today = new Date();
+      classSchedule.sort((date1, date2) => date1 - date2);
+      console.log(attendedList);
+      res.render("admin/class/attendance", {
+        classSchedule,
+        moment,
+        students,
+        today,
+        attendedList,
+      });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  saveCheckAttendance: async (req, res) => {
+    try {
+      const classId = req.params.id;
+      Object.keys(req.body).forEach(async (data) => {
+        const [attendance, created] = await StudentsAttendance.findOrCreate({
+          where: {
+            dateLearning: JSON.parse(data).date,
+            studentId: JSON.parse(data).studentId,
+            classId: classId,
+          },
+          defaults: {
+            dateLearning: JSON.parse(data).date,
+            studentId: JSON.parse(data).studentId,
+            classId: classId,
+            status: 1,
+          },
+        });
+      });
+      res.redirect("/admin/class/attendance/" + classId);
     } catch (error) {
       console.log(error);
       res.render("error");

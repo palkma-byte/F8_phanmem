@@ -11,12 +11,47 @@ let data;
 module.exports = {
   index: async (req, res) => {
     try {
-      const user = req.user;
-      res.render("admin/index", { user });
+      res.render("admin/index", { layout: false });
     } catch (error) {
       console.log(error);
       res.render("error");
     }
+  },
+  chartApi: async (req, res) => {
+    // Assuming you have fetched the list of users and stored it in the 'users' variable
+    const users = await User.findAll();
+
+    // Get the current date
+    const currentDate = moment();
+
+    // Calculate the four nearest months before the current date
+    const nearestMonths = [];
+    for (let i = 6; i >= 0; i--) {
+      const month = currentDate.clone().subtract(i, "months");
+      nearestMonths.push(month);
+    }
+
+    // Group users by month and count the number of users in each month
+    const groupedData = users.reduce((acc, user) => {
+      const monthYear = moment(user.createdAt).format("MM/YYYY");
+      acc[monthYear] = (acc[monthYear] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Extract the counts for the nearest months
+    const result = nearestMonths.map((month) => {
+      const monthYear = month.format("MM/YYYY");
+      return {
+        month: monthYear,
+        count: groupedData[monthYear] || 0,
+      };
+    });
+
+    // Separate arrays for months and counts
+    const months = result.map((entry) => entry.month);
+    const counts = result.map((entry) => entry.count);
+
+    res.json({ month: months, count: counts });
   },
   manager: async (req, res) => {
     try {
@@ -102,7 +137,6 @@ module.exports = {
       console.log(error);
       res.render("error");
     }
-   
   },
   updateUser: async (req, res) => {
     try {

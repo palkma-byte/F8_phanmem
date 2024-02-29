@@ -12,13 +12,15 @@ module.exports = {
       dateLearning: {
         type: Sequelize.DATE,
       },
-      statusId: {
+      studentId: {
         type: Sequelize.INTEGER,
-        references: { model: "LearningStatuses", key: "id" },
+
+        references: { model: "Users", key: "id" },
       },
+
       classId: {
         type: Sequelize.INTEGER,
-        references: { model: "Classes", key: "id", },
+        references: { model: "Classes", key: "id" },
       },
       status: {
         type: Sequelize.TINYINT,

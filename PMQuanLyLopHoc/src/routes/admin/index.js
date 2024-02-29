@@ -20,6 +20,8 @@ router.post("/manage/delete/:id", UserController.deleteUser);
 router.get("/manage/export-excel", UserController.excel);
 router.get("/manage/add", UserController.addNewUser);
 router.post("/manage/add", UserController.handleAddUser);
+//chart
+router.get("/api/chart", UserController.chartApi);
 //course manager
 router.get("/course", CourseController.manageCourse);
 router.get("/course/add", CourseController.addCourse);
@@ -36,6 +38,7 @@ router.post("/course/manage-class/add/:id", ClassController.handleAddClass);
 
 router.get("/class/update/:id", ClassController.updateClass);
 router.post("/class/update/:id", ClassController.handleUpdateClass);
+
 router.post("/class/delete/:id", ClassController.deleteClass);
 
 router.get("/class/manage-student/:id", ClassController.manageStudent);
@@ -45,6 +48,9 @@ router.get(
   ClassController.studentDetail
 );
 router.get("/class/manage-teacher/:id", ClassController.manageTeacher);
+//class attendance
+router.get("/class/attendance/:id", ClassController.checkAttendance);
+router.post("/class/attendance/:id", ClassController.saveCheckAttendance);
 
 //student manage
 router.get("/student/manage", StudentController.studentList);
@@ -56,6 +62,7 @@ router.post(
   upload.single("fileInput"),
   CommentController.handlePost
 );
+router.post("/reply", CommentController.handlePostReply);
 
 // test schedule
 router.get("/schedule", ScheduleController.index);

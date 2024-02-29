@@ -4,11 +4,11 @@ const {
   Course,
   LearningStatus,
   StudentsClass,
+  StudentsAttendance,
+  Comment,
 } = require("./src/models");
 
 async function test() {
-  const abc = await Class.findByPk(6);
-  console.log(new Date(abc.timeLearn + " " + abc.startDate));
+  const a = await Comment.findByPk(35);
+  console.log(await a.getReply());
 }
-
-test();

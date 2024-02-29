@@ -1,310 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Phan mem quan ly</title>
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
-    <!-- Google Font: Source Sans Pro -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-    />
-    <!-- Font Awesome -->
-    <script
-      src="https://kit.fontawesome.com/5b0a3e0df5.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Ionicons -->
-    <link
-      rel="stylesheet"
-      href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-    />
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link
-      rel="stylesheet"
-      href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
-    />
-    <!-- iCheck -->
-    <link
-      rel="stylesheet"
-      href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
-    />
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="/plugins/jqvmap/jqvmap.min.css" />
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/assets/css/adminlte.min.css" />
-    <!-- overlayScrollbars -->
-    <link
-      rel="stylesheet"
-      href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
-    />
-    <!-- Daterange picker -->
-    <link
-      rel="stylesheet"
-      href="/plugins/daterangepicker/daterangepicker.css"
-    />
-    <!-- summernote -->
-    <!-- <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css" />
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phan mem quan ly</title>
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/5b0a3e0df5.js" crossorigin="anonymous"></script>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+  <!-- iCheck -->
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="/plugins/jqvmap/jqvmap.min.css" />
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/assets/css/adminlte.min.css" />
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
+  <!-- summernote -->
+  <!-- <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css" />
     <link rel="stylesheet" href="/plugins/codemirror/codemirror.css" />
     <link rel="stylesheet" href="/plugins/codemirror/theme/monokai.css" /> -->
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
-    <style>
-      pre {
-        background-color: #e0dede;
-        padding: 15px;
-        border-radius: 5px;
-      }
-    </style>
-  </head>
-  <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-      <!-- Navbar -->
-      <%- include("partials/header") %>
-      <!-- Main Sidebar Container -->
-      <%- include("partials/sidebar") %>
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="../plugins/fullcalendar/main.css" />
+  <style>
+    pre {
+      background-color: #e0dede;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
 
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <!-- Main content -->
-        <section class="content">
-          <div class="container-fluid">
-            <!-- Main content -->
-            <section class="content">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-md-3">
-                    <div class="sticky-top mb-3">
-                      <div class="card">
-                        <div style="display: none" class="card-body">
-                          <!-- the events -->
-                          <div id="external-events"></div>
-                        </div>
-                        <!-- /.card-body -->
-                      </div>
-                      <!-- /.card -->
-                    </div>
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-md-9">
-                    <div class="card card-primary">
-                      <div class="card-body p-0">
-                        <!-- THE CALENDAR -->
-                        <div id="calendar"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <%- include("partials/header") %>
+    <!-- Main Sidebar Container -->
+    <%- include("partials/sidebar") %>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="sticky-top mb-3">
+                    <div class="card">
+                      <div style="display: none" class="card-body">
+                        <!-- the events -->
+                        <div id="external-events"></div>
                       </div>
                       <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                   </div>
-                  <!-- /.col -->
                 </div>
-                <!-- /.row -->
+                <!-- /.col -->
+                <div class="col-md-9">
+                  <div class="card card-primary">
+                    <div class="card-body p-0">
+                      <!-- THE CALENDAR -->
+                      <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
               </div>
-              <!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-          </div>
-          <!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-      </div>
-      <!-- /.content-wrapper -->
-      <footer class="main-footer">
-        <strong
-          >Copyright &copy; <%= new Date().getFullYear() %> by Pham Hoang F8
-        </strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-          <b>Version</b> 0.0.1
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </section>
+          <!-- /.content -->
         </div>
-      </footer>
-
-      <!-- Control Sidebar -->
-      <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-      </aside>
-      <!-- /.control-sidebar -->
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
     </div>
-    <!-- ./wrapper -->
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; <%= new Date().getFullYear() %> by Pham Hoang F8
+      </strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 0.0.1
+      </div>
+    </footer>
 
-    <!-- jQuery -->
-    <script src="/plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge("uibutton", $.ui.button);
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
-    <script src="/plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
-    <script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
-    <script src="/plugins/moment/moment.min.js"></script>
-    <script src="/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
 
-    <!-- overlayScrollbars -->
-    <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="/assets/js/adminlte.js"></script>
-    <!-- fullCalendar 2.2.5 -->
-    <script src="../plugins/moment/moment.min.js"></script>
-    <script src="../plugins/fullcalendar/main.js"></script>
-
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-
-    <script src="/assets/js/pages/dashboard.js"></script>
-    <!-- fullCalendar 2.2.5 -->
-    <script src="../plugins/moment/moment.min.js"></script>
-    <script src="../plugins/fullcalendar/main.js"></script>
-  </body>
-  <!-- Page specific script -->
+  <!-- jQuery -->
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
-    $(function () {
-      /* initialize the external events
-          -----------------------------------------------------------------*/
-      function ini_events(ele) {
-        ele.each(function () {
-          // create an Event Object (https://fullcalendar.io/docs/event-object)
-          // it doesn't need to have a start or end
-          var eventObject = {
-            title: $.trim($(this).text()), // use the element's text as the event title
-          };
+    $.widget.bridge("uibutton", $.ui.button);
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="/plugins/moment/moment.min.js"></script>
+  <script src="/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
-          // store the Event Object in the DOM element so we can get to it later
-          $(this).data("eventObject", eventObject);
-        });
-      }
+  <!-- overlayScrollbars -->
+  <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/assets/js/adminlte.js"></script>
+  <!-- fullCalendar 2.2.5 -->
+  <script src="/plugins/moment/moment.min.js"></script>
+  <script src="/plugins/fullcalendar/main.js"></script>
 
-      ini_events($("#external-events div.external-event"));
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 
-      /* initialize the calendar
-          -----------------------------------------------------------------*/
-      //Date for the calendar events (dummy data)
+  <script src="/assets/js/pages/dashboard.js"></script>
+  <!-- fullCalendar 2.2.5 -->
+  <script src="/plugins/moment/moment.min.js"></script>
+  <script src="/plugins/fullcalendar/main.js"></script>
+</body>
+<!-- Page specific script -->
+<script>
+  $(function() {
+    /* initialize the external events
+        -----------------------------------------------------------------*/
+    function ini_events(ele) {
+      ele.each(function() {
+        // create an Event Object (https://fullcalendar.io/docs/event-object)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()), // use the element's text as the event title
+        };
 
-      var Calendar = FullCalendar.Calendar;
-      var Draggable = FullCalendar.Draggable;
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data("eventObject", eventObject);
+      });
+    }
 
-      var containerEl = document.getElementById("external-events");
-      var checkbox = document.getElementById("drop-remove");
-      var calendarEl = document.getElementById("calendar");
+    ini_events($("#external-events div.external-event"));
 
-      // initialize the external events
-      // -----------------------------------------------------------------
+    /* initialize the calendar
+        -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
 
-      /// Get schedule data from database
-      let dataS = [];
-      fetch("http://localhost:3001/admin/api/schedule")
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the data
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
 
-          data.forEach((element) => {
-            const color =
-              "#" + Math.floor(Math.random() * 16777215).toString(16);
+    var containerEl = document.getElementById("external-events");
+    var checkbox = document.getElementById("drop-remove");
+    var calendarEl = document.getElementById("calendar");
 
-            //// Get week day schedule
-            element.schedule.split(", ").forEach((weekday) => {
-              console.log(weekday);
-              console.log(element);
-              console.log(1);
-              function getWeekdaysInRange(startDate, endDate, dayOfWeek) {
-                var weekdays = [];
-                var currentDate = new Date(startDate);
-                var startDate = new Date(startDate);
-                var endDate = new Date(endDate);
+    // initialize the external events
+    // -----------------------------------------------------------------
 
-                // Convert weekday to JavaScript's day numbering (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-                var targetWeekday; // Adjusting to match JavaScript's day numbering
-                switch (dayOfWeek) {
-                  case "Sunday":
-                    targetWeekday = 0;
-                    break;
-                  case "Monday":
-                    targetWeekday = 1;
-                    break;
-                  case "Tuesday":
-                    targetWeekday = 2;
-                    break;
-                  case "Wednesday":
-                    targetWeekday = 3;
-                    break;
-                  case "Thursday":
-                    targetWeekday = 4;
-                    break;
-                  case "Friday":
-                    targetWeekday = 5;
-                    break;
-                  case "Saturday":
-                    targetWeekday = 6;
-                    break;
-                }
+    /// Get schedule data from database
+    let dataS = [];
+    const baseURL = window.location.origin;
+    fetch(baseURL + "/admin/api/schedule")
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the data
 
-                // Iterate through each day within the range
-                while (currentDate <= endDate) {
-                  // Check if the current day matches the target weekday
-                  if (currentDate.getDay() === targetWeekday) {
-                    // If it's the target weekday, add it to the array
-                    weekdays.push(new Date(currentDate));
-                  }
-                  // Move to the next day
-                  currentDate.setDate(currentDate.getDate() + 1);
-                }
-                return weekdays;
+        data.forEach((element) => {
+          const color =
+            "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+          //// Get week day schedule
+          element.schedule.split(", ").forEach((weekday) => {
+            function getWeekdaysInRange(startDate, endDate, dayOfWeek) {
+              var weekdays = [];
+              var currentDate = new Date(startDate);
+              var startDate = new Date(startDate);
+              var endDate = new Date(endDate);
+
+              // Convert weekday to JavaScript's day numbering (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+              var targetWeekday; // Adjusting to match JavaScript's day numbering
+              switch (dayOfWeek) {
+                case "Sunday":
+                  targetWeekday = 0;
+                  break;
+                case "Monday":
+                  targetWeekday = 1;
+                  break;
+                case "Tuesday":
+                  targetWeekday = 2;
+                  break;
+                case "Wednesday":
+                  targetWeekday = 3;
+                  break;
+                case "Thursday":
+                  targetWeekday = 4;
+                  break;
+                case "Friday":
+                  targetWeekday = 5;
+                  break;
+                case "Saturday":
+                  targetWeekday = 6;
+                  break;
               }
 
-              getWeekdaysInRange(
-                element.startDate,
-                element.endDate,
-                weekday
-              ).forEach((finalSchedule) => {
-                dataS.push({
-                  title: element.name,
-                  start: finalSchedule,
-                  allDay: true,
-                  backgroundColor: "#007bff",
-                  borderColor: "#007bff",
-                });
+              // Iterate through each day within the range
+              while (currentDate <= endDate) {
+                // Check if the current day matches the target weekday
+                if (currentDate.getDay() === targetWeekday) {
+                  // If it's the target weekday, add it to the array
+                  weekdays.push(new Date(currentDate));
+                }
+                // Move to the next day
+                currentDate.setDate(currentDate.getDate() + 1);
+              }
+              return weekdays;
+            }
+
+            getWeekdaysInRange(
+              element.startDate,
+              element.endDate,
+              weekday
+            ).forEach((finalSchedule) => {
+              dataS.push({
+                title: element.name,
+                start: finalSchedule,
+                allDay: true,
+                backgroundColor: "#007bff",
+                borderColor: "#007bff",
               });
             });
-
-            ////
           });
-          var calendar = new Calendar(calendarEl, {
-            headerToolbar: {
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            },
-            themeSystem: "bootstrap",
-            //Random default events
 
-            events: dataS,
-            editable: false,
-            droppable: false, // this allows things to be dropped onto the calendar !!!
-            drop: function (info) {
-              // is the "remove after drop" checkbox checked?
-              if (checkbox.checked) {
-                // if so, remove the element from the "Draggable Events" list
-                info.draggedEl.parentNode.removeChild(info.draggedEl);
-              }
-            },
-          });
-          calendar.render();
-          //    $('#calendar').fullCalendar()
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    });
-  </script>
+          ////
+        });
+        var calendar = new Calendar(calendarEl, {
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
+          themeSystem: "bootstrap",
+          //Random default events
+
+          events: dataS,
+          editable: false,
+          droppable: false, // this allows things to be dropped onto the calendar !!!
+          drop: function(info) {
+            // is the "remove after drop" checkbox checked?
+            if (checkbox.checked) {
+              // if so, remove the element from the "Draggable Events" list
+              info.draggedEl.parentNode.removeChild(info.draggedEl);
+            }
+          },
+        });
+        calendar.render();
+        //    $('#calendar').fullCalendar()
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  });
+</script>
+
 </html>
