@@ -14,4 +14,5 @@ async function test() {
   const a = await User.findByPk(3);
   await a.removeRole(1);
 }
+//kkkkkk
 test();
