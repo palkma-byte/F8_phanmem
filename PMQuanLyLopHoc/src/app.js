@@ -25,6 +25,7 @@ const teacherRouter = require("../src/routes/teacher/index");
 const isGuest = require("../src/http/middlewares/isGuest");
 const loggedOneDevice = require("../src/http/middlewares/loggedOneDevice");
 const getType = require("../src/http/middlewares/CheckTypeMiddleware");
+const getUserPermission = require("../src/http/middlewares/getUserPermission");
 
 //run schedule
 require("./scheduler");
@@ -85,7 +86,8 @@ app.use(getType);
 
 app.use("/student", studentRouter);
 app.use("/teacher", teacherRouter);
-app.use("/admin", adminRouter);
+
+app.use("/admin", getUserPermission, adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

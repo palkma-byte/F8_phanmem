@@ -5,8 +5,7 @@ module.exports = async (req, res, next) => {
       where: { token: req.cookies.lgt },
     });
     if (token) {
-     
-      res.redirect("/");
+      res.redirect("/home");
     } else {
       res.clearCookie("lgt");
       req.logout((err) => {

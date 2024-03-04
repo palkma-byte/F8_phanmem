@@ -1,7 +1,7 @@
 const { LoginToken, User } = require("../../models");
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
   if (!req.user) {
     res.redirect("/auth/login");
-  } 
+  }
   next();
 };

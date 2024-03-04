@@ -29,13 +29,13 @@ module.exports = {
     res.cookie("lgt", token);
     switch (req.user.typeId) {
       case 1:
-        res.redirect("/student");
+        res.redirect("/student/home");
         break;
       case 2:
-        res.redirect("/teacher");
+        res.redirect("/teacher/home");
         break;
       case 3:
-        res.redirect("/admin");
+        res.redirect("/admin/home");
         break;
       default:
         res.redirect("/");

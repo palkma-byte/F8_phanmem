@@ -6,9 +6,12 @@ const {
   StudentsClass,
   StudentsAttendance,
   Comment,
+  Role,
+  Permission,
 } = require("./src/models");
-
+const { Op } = require("sequelize");
 async function test() {
-  const a = await Comment.findByPk(35);
-  console.log(await a.getReply());
+  const a = await User.findByPk(3);
+  await a.removeRole(1);
 }
+test();

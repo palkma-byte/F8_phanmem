@@ -1,0 +1,19 @@
+<div class="container">
+  <h1 class="mt-5 mb-4">Update Role</h1>
+  <form action="" method="POST">
+    <div class="form-group">
+      <label for="roleName">Role Name:</label>
+      <input type="text" id="roleName" name="roleName" class="form-control" value="<%= role.name %>">
+    </div>
+    <div class="form-group">
+      <label>Permissions:</label><br>
+      <% permissions.forEach(permission => { %>
+      <div class="form-check form-check-inline">
+        <input type="checkbox" name="permissions" id="permission_<%= permission.id %>" class="form-check-input" value="<%= permission.id %>" <% if (role.Permissions.some(rolePermission => rolePermission.id === permission.id)) { %>checked<% } %>>
+        <label for="permission_<%= permission.id %>" class="form-check-label"><%= permission.values %></label>
+      </div>
+      <% }); %>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Role</button>
+  </form>
+</div>

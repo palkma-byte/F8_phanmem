@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 class="mt-5 mb-4">Role-Permission Matrix</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Role\Permission</th>
+        <% permissions.forEach(permission => { %>
+        <th><%= permission.values %></th>
+        <% }); %>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% roles.forEach(role => { %>
+      <tr>
+        <td><%= role.name %></td>
+        <% permissions.forEach(permission => { %>
+        <td>
+          <input type="checkbox" name="permissions[<%= role.name %>][<%= permission.values %>]" class="form-check-input" <% if (role.Permissions.some(rolePermission => rolePermission.id === permission.id)) { %>checked<% } %>><%= permission.values%>
+        </td>
+        <% }); %>
+        <td>
+          <a href="/admin/role/manage/update/<%= role.id %>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
+        </td>
+        <td>
+          <form action="/admin/role/manage/delete/<%= role.id %>" method="post" style="display: inline">
+            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <a href="/admin/role/manage/add" class="btn btn-success"><i class="fas fa-plus"></i> Add Role</a>
+</div>

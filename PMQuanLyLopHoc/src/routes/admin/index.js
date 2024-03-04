@@ -9,17 +9,35 @@ const ClassController = require("../../http/controllers/admin/class.controller")
 const CommentController = require("../../http/controllers/admin/comment.controller");
 const StudentController = require("../../http/controllers/admin/student.controller");
 const ScheduleController = require("../../http/controllers/admin/schedule.controller");
+const RoleController = require("../../http/controllers/admin/role.controller");
+
+//Middlewares
+const PermissionMiddleware = require("../../http/middlewares/PermissionMiddeware");
 
 /* GET home page. */
-router.get("/", UserController.index);
+router.get("/home", UserController.index);
 //user manager
 router.get("/manage", UserController.manager);
 router.get("/manage/update/:id", UserController.updateUser);
 router.post("/manage/update/:id", UserController.handleUpdateUser);
-router.post("/manage/delete/:id", UserController.deleteUser);
+router.post(
+  "/manage/delete/:id",
+  PermissionMiddleware("delete"),
+  UserController.deleteUser
+);
 router.get("/manage/export-excel", UserController.excel);
 router.get("/manage/add", UserController.addNewUser);
 router.post("/manage/add", UserController.handleAddUser);
+router.get("/manage/permission/:id", UserController.permission);
+router.post("/manage/permission/:id/add-role", UserController.handleAddRole);
+router.post(
+  "/manage/permission/:id/delete-role",
+  UserController.handleDeleteRole
+);
+router.post(
+  "/manage/permission/:id/update-permissions",
+  UserController.handleUpdatePermission
+);
 //chart
 router.get("/api/chart", UserController.chartApi);
 //course manager
@@ -67,5 +85,13 @@ router.post("/reply", CommentController.handlePostReply);
 // test schedule
 router.get("/schedule", ScheduleController.index);
 router.get("/api/schedule", ScheduleController.startDate);
+
+//phan quyen
+router.get("/role/manage", RoleController.manageRole);
+router.get("/role/manage/update/:id", RoleController.update);
+router.post("/role/manage/update/:id", RoleController.handleUpdate);
+router.post("/role/manage/delete/:id", RoleController.delete);
+router.get("/role/manage/add", RoleController.add);
+router.post("/role/manage/add", RoleController.handlAdd);
 
 module.exports = router;

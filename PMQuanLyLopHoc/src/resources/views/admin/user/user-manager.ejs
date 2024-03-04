@@ -4,39 +4,33 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Danh sach tat ca User</h3>
+            <h3 class="card-title">Danh sách tất cả User</h3>
           </div>
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-6">
-                <a href="/admin/manage/add" class="btn btn-success mr-2">Add new user</a>
-                <a href="/admin/manage/export-excel" class="btn btn-info mr-2">Export excel</a>
+                <a href="/admin/manage/add" class="btn btn-success mr-2"><i class="fas fa-user-plus"></i> Thêm người dùng mới</a>
+                <a href="/admin/manage/export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Xuất Excel</a>
               </div>
               <div class="col-6 d-flex align-items-center">
                 <form action="" class="mb-3 d-flex">
                   <div class="col-7">
-                    <input
-                      type="search"
-                      name="keyword"
-                      class="form-control"
-                      placeholder="Từ khóa tìm kiếm..."
-                      value="<%= keyword %>"
-                    />
+                    <input type="search" name="keyword" class="form-control" placeholder="Từ khóa tìm kiếm..." value="<%= keyword %>" />
                   </div>
                   <div class="col-2 d-grid">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                   </div>
                 </form>
                 <div class="col-3">
                   <form action="" class="mb-3 d-flex">
-                      <label class="mr-2">Items Display:</label>
-                      <select name="pageSize" class="form-control" onchange="this.form.submit()">
-                          <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
-                          <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
-                          <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
-                      </select>
+                    <label class="mr-2">Hiển thị:</label>
+                    <select name="pageSize" class="form-control" onchange="this.form.submit()">
+                      <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
+                      <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
+                      <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
+                    </select>
                   </form>
-              </div>
+                </div>
               </div>
             </div>
 
@@ -51,7 +45,8 @@
                     <th>Phone</th>
                     <th>Address</th>
                     <th>Type</th>
-                    <th>Tinh trang xac thuc</th>
+                    <th>Tình trạng xác thực</th>
+                    <th>Phân quyền</th>
                     <th>Update</th>
                     <th>Delete</th>
                   </tr>
@@ -65,23 +60,14 @@
                     <td><%= row.phone %></td>
                     <td><%= row.address %></td>
                     <td><%= row.Type.name %></td>
-                    <td><%= row.firstLogin===1?"Verified":"Unverified" %></td>
+                    <td><%= row.firstLogin === 1 ? "Verified" : "Unverified" %></td>
+                    <td><a href="/admin/manage/permission/<%= row.id %>" class="btn btn-primary"><i class="fas fa-lock"></i></a></td>
                     <td>
-                      <a
-                        href="/admin/manage/update/<%= row.id %>"
-                        class="btn btn-primary mr-2"
-                        >Update</a
-                      >
+                      <a href="/admin/manage/update/<%= row.id %>" class="btn btn-primary mr-2"><i class="fas fa-edit"></i></a>
                     </td>
                     <td>
-                      <form
-                        action="/admin/manage/delete/<%= row.id %>"
-                        method="post"
-                        style="display: inline"
-                      >
-                        <button type="submit" class="btn btn-danger">
-                          Delete
-                        </button>
+                      <form action="/admin/manage/delete/<%= row.id %>" method="post" style="display: inline">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                       </form>
                     </td>
                   </tr>

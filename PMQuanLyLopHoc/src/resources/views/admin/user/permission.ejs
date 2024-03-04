@@ -1,0 +1,49 @@
+<div class="container">
+  <h1 class="mt-5 mb-4">Add Permissions and Roles for <%= user.name %></h1>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>User Roles:</h4>
+    </div>
+    <div class="card-body">
+      <% user.Roles.forEach(role => { %>
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <p><%= role.name %></p>
+        <form action="/admin/manage/permission/<%=user.id %>/delete-role?roleId=<%= role.id %>" method="POST">
+          <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+        </form>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <form action="/admin/manage/permission/<%=user.id %>/add-role" method="POST" class="mb-4">
+    <div class="form-group row">
+      <label for="selectRole" class="col-sm-2 col-form-label">Select Role:</label>
+      <div class="col-sm-8">
+        <select id="selectRole" name="selectRole" class="form-control">
+          <% roles.forEach(role => { %>
+          <option value="<%= role.id %>"><%= role.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Role</button>
+      </div>
+    </div>
+  </form>
+
+  <form action="/admin/manage/permission/<%=user.id %>/update-permissions" method="POST" class="mb-4">
+    <div class="form-group">
+      <label>Permissions:</label><br>
+      <% permissions.forEach(permission => { %>
+      <div class="form-check form-check-inline">
+        <input type="checkbox" name="permissions" id="permission_<%= permission.id %>" class="form-check-input" value="<%= permission.id %>" <% if (user.Permissions.some(userPermission => userPermission.id === permission.id)) { %>checked<% } %>>
+        <label for="permission_<%= permission.id %>" class="form-check-label"><%= permission.values %></label>
+      </div>
+      <% }); %>
+    </div>
+
+    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Update Permissions</button>
+  </form>
+</div>

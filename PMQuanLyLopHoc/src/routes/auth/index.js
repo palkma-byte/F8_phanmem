@@ -41,7 +41,7 @@ router.post(
       next();
     } else {
       // error code
-      console.log("Ga");
+
       req.flash("error", "Captcha thất bại, vui lòng thử lại!");
       res.redirect("/auth/login");
     }

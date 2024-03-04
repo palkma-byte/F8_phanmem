@@ -1,5 +1,4 @@
-const { User, Type } = require("../../../models");
-const { ROW_PER_PAGE } = process.env;
+const { User, Type, Role, Permission } = require("../../../models");
 const { Op } = require("sequelize");
 const xlsx = require("node-xlsx").default;
 var generator = require("generate-password");
@@ -204,7 +203,7 @@ module.exports = {
         new SendMail({
           email: email,
           subject: "Mật khẩu tại F8 phần mềm",
-          content: `Chúc mừng bạn đã được thiết lập tài khoản mới tại F8 phần mềm! Vui lòng sử dụng email ${email} và mật khẩu ${passwordGen} để đăng nhập.`,
+          content: `Bạn đã được thiết lập tài khoản mới tại F8 Edu! Vui lòng sử dụng email ${email} và mật khẩu ${passwordGen} để đăng nhập.`,
         })
       );
       req.body.password = passwordGen;
@@ -215,5 +214,32 @@ module.exports = {
       console.log(error);
       res.render("error");
     }
+  },
+  permission: async (req, res) => {
+    try {
+      const roles = await Role.findAll();
+      const permissions = await Permission.findAll();
+      const user = await User.findByPk(req.params.id, {
+        include: [Permission, Role],
+      });
+      res.render("admin/user/permission", { roles, permissions, user });
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleAddRole: async (req, res) => {
+    const user = await User.findByPk(req.params.id);
+    await user.addRoles(req.body.selectRole);
+    res.redirect("/admin/manage/permission/" + req.params.id);
+  },
+  handleDeleteRole: async (req, res) => {
+    const user = await User.findByPk(req.params.id);
+    await user.removeRole(req.query.roleId);
+    res.redirect("/admin/manage/permission/" + req.params.id);
+  },
+  handleUpdatePermission: async (req, res) => {
+    const user = await User.findByPk(req.params.id);
+    await user.setPermissions(req.body.permissions);
+    res.redirect("/admin/manage/permission/" + req.params.id);
   },
 };

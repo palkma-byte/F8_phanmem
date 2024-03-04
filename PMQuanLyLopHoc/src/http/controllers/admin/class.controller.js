@@ -10,6 +10,7 @@ var moment = require("moment");
 
 module.exports = {
   manageClass: async (req, res) => {
+    console.log(req.session.userPermissions);
     const { page = 1, pageSize = 5 } = req.query;
     const { id } = req.params;
     try {
