@@ -47,7 +47,21 @@ router.post("/course/add", CourseController.handleAddCourse);
 router.get("/course/update/:id", CourseController.updateCourse);
 router.post("/course/update/:id", CourseController.handleUpdateCourse);
 router.post("/course/delete/:id", CourseController.deleteCourse);
-router.get("/course/manage-modules/:id", CourseController.updateCourse);
+router.get("/course/modules/:id", CourseController.modules);
+router.post("/course/modules/:id/add-module", CourseController.handleAddModule);
+
+router.post(
+  "/course/modules/:id/delete-module/:moduleId",
+  CourseController.deleteModule
+);
+router.post(
+  "/course/modules/:courseId/add-document/:moduleId",
+  CourseController.handleAddDocument
+);
+router.post(
+  "/course/modules/:courseId/delete-document",
+  CourseController.deleteDocument
+);
 
 //class manage
 router.get("/course/manage-class/:id", ClassController.manageClass);
@@ -59,13 +73,31 @@ router.post("/class/update/:id", ClassController.handleUpdateClass);
 
 router.post("/class/delete/:id", ClassController.deleteClass);
 
-router.get("/class/manage-student/:id", ClassController.manageStudent);
-// router.get("/class/manage-student/update/:id", ClassController);
+router.get("/class/manage-student/:id", ClassController.studentDetail);
 router.get(
-  "/class/manage-student/student-detail/:id",
-  ClassController.studentDetail
+  "/class/manage-student/:id/update",
+  ClassController.updateStudentDetail
+);
+router.get("/class/manage-student/:id/add", ClassController.addStudentToClass);
+router.post(
+  "/class/manage-student/:id/add",
+  ClassController.handleAddStudentToClass
+);
+router.post(
+  "/class/manage-student/:id/update",
+  ClassController.handleUpdateStudentDetail
+);
+router.post(
+  "/class/manage-student/:id/delete",
+  ClassController.deleteStudentClass
 );
 router.get("/class/manage-teacher/:id", ClassController.manageTeacher);
+router.post("/class/manage-teacher/:id/add", ClassController.addTeacherClass);
+router.post(
+  "/class/manage-teacher/:id/delete",
+  ClassController.deleteTeacherClass
+);
+
 //class attendance
 router.get("/class/attendance/:id", ClassController.checkAttendance);
 router.post("/class/attendance/:id", ClassController.saveCheckAttendance);

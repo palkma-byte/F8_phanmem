@@ -15,28 +15,61 @@
               </div>
             </div>
 
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% teachers.forEach(row => { %>
-                  <tr>
-                    <td><%= row.id %></td>
-                    <td><%= row.name %></td>
-                    <td><%= row.email %></td>
-                  </tr>
-                  <% }); %>
-                </tbody>
-              </table>
+            <!-- Add Teacher Form -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h4>Thêm Giảng viên</h4>
+              </div>
+              <div class="card-body">
+                <form action="/admin/class/manage-teacher/<%= class1.id %>/add" method="POST">
+                  <div class="form-group">
+                    <label for="teacherId">Chọn Giảng viên:</label>
+                    <select id="teacherId" name="teacherId" class="form-control" required>
+                      <% teachers.forEach(teacher => { %>
+                      <option value="<%= teacher.id %>"><%= teacher.name %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Thêm Giảng viên</button>
+                </form>
+              </div>
             </div>
-            <!-- /.card-body -->
+
+            <!-- Teacher Table -->
+            <div class="card">
+              <div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Stt</th>
+                      <th>Name</th>
+
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let stt = 1; %>
+                    <% teacherClasses.forEach(teacherClass => { %>
+                    <tr>
+                      <td><%= stt %></td>
+                      <td><%= teacherClass.name %></td>
+
+                      <td>
+                        <form action="/admin/class/manage-teacher/<%= class1.id %>/delete" method="POST">
+                          <input type="hidden" name="teacherId" value="<%= teacherClass.id %>">
+                          <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    <% stt++; %>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
           </div>
         </div>
       </div>

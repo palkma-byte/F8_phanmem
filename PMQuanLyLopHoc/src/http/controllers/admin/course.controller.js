@@ -1,4 +1,9 @@
-const { Course, Class } = require("../../../models");
+const {
+  Course,
+  Class,
+  CourseModule,
+  ModuleDocument,
+} = require("../../../models");
 var moment = require("moment");
 moment.locale("vi");
 
@@ -65,7 +70,57 @@ module.exports = {
       res.render("error");
     }
   },
-  manageModules: async (req,res) => {
-    res.send("modules")
-  }
+  modules: async (req, res) => {
+    const course = await Course.findByPk(req.params.id);
+    const modules = await CourseModule.findAll({
+      where: { courseId: req.params.id },
+      include: "documents",
+    });
+    res.render("admin/course/modules", { course, modules });
+  },
+
+  handleAddModule: async (req, res) => {
+    try {
+      await CourseModule.create({
+        name: req.body.moduleName,
+        courseId: req.params.id,
+      });
+      res.redirect("/admin/course/modules/" + req.params.id);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+
+  deleteModule: async (req, res) => {
+    try {
+      await CourseModule.destroy({
+        where: { id: req.params.moduleId },
+      });
+      res.redirect("/admin/course/modules/" + req.params.id);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleAddDocument: async (req, res) => {
+    try {
+      await ModuleDocument.create({
+        pathName: req.body.documentPath,
+        moduleId: req.params.moduleId,
+      });
+      res.redirect("/admin/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+
+  deleteDocument: async (req, res) => {
+    try {
+      await ModuleDocument.destroy({
+        where: { id: req.query.documentId },
+      });
+      res.redirect("/admin/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
 };

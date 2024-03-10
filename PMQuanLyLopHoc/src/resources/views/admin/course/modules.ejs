@@ -1,0 +1,67 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <h1>Module and document of <%=course.name%></h1>
+          <div class="card-header">
+            <h2 class="card-title">Add Module</h2>
+          </div>
+          <div class="card-body">
+            <form action="/admin/course/modules/<%=course.id%>/add-module" method="POST">
+              <div class="form-group">
+                <label for="moduleName">Module Name:</label>
+                <input type="text" id="moduleName" name="moduleName" class="form-control" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Module</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% modules.forEach(courseModule => { %>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Module Name: <%= courseModule.name %>
+              <!-- Module marker -->
+            </h3>
+            <!-- Delete button for the module -->
+            <form action="/admin/course/modules/<%= course.id %>/delete-module/<%= courseModule.id %>" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-sm btn-danger float-right"><i class="fas fa-trash"></i></button>
+            </form>
+          </div>
+          <div class="card-body">
+            <form action="/admin/course/modules/<%= course.id %>/add-document/<%= courseModule.id %>" method="POST">
+              <div class="form-group">
+                <label for="documentPath">Document Path:</label>
+                <input type="text" id="documentPath" name="documentPath" class="form-control" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Document</button>
+              <hr> <!-- Separator between module name and document -->
+              <div class="mt-3">
+                <h5>Documents:</h5> <!-- Document marker -->
+                <ul class="list-unstyled">
+                  <% if (courseModule.documents && courseModule.documents.length > 0) { %>
+                  <% courseModule.documents.forEach(document => { %>
+                  <li>
+                    <a href="<%= document.pathName %>"><%= document.pathName %></a>
+                    <form action="/admin/course/modules/<%= course.id %>/delete-document?documentId=<%= document.id %>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-sm btn-danger ml-2"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </li>
+                  <% }); %>
+                  <% } else { %>
+                  <p>No documents available for this module.</p>
+                  <% } %>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</div>

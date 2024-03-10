@@ -5,9 +5,9 @@ module.exports = {
     try {
       const user = req.user;
       const { page = 1, keyword = "", pageSize = 5 } = req.query;
-  
+
       const offset = (page - 1) * pageSize;
-  
+
       const option = {
         attributes: [
           "id",
@@ -29,14 +29,14 @@ module.exports = {
             { address: { [Op.substring]: keyword } },
           ],
         },
-  
+
         include: { model: Type, where: { name: "student" } },
       };
       const { count, rows } = await User.findAndCountAll(option);
       data = rows;
       const totalPage = Math.ceil(count / pageSize);
-  
-      res.render("admin/student/manage-student", {
+
+      res.render("admin/student/manage", {
         user,
         rows,
         count,
@@ -47,8 +47,7 @@ module.exports = {
       });
     } catch (error) {
       console.log(error);
-      res.render("error")
+      res.render("error");
     }
-   
   },
 };

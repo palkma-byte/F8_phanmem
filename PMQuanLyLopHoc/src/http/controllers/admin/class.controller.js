@@ -5,8 +5,10 @@ const {
   LearningStatus,
   User,
   StudentsAttendance,
+  Type,
 } = require("../../../models");
 var moment = require("moment");
+const { Op } = require("sequelize");
 
 module.exports = {
   manageClass: async (req, res) => {
@@ -120,31 +122,18 @@ module.exports = {
       res.render("error");
     }
   },
-  manageStudent: async (req, res) => {
-    const classId = req.params.id;
-    try {
-      const class1 = await Class.findByPk(classId);
-      const students = await class1.getStudent();
-      res.render("admin/class/student-class", { moment, class1, students });
-    } catch (error) {
-      console.log(error);
-      res.render("error");
-    }
-  },
+
   studentDetail: async (req, res) => {
     try {
-      const studentId = req.params.id;
-      const student = await User.findByPk(studentId);
+      const classId = req.params.id;
+      const classInfo = await Class.findByPk(classId);
       const studentDetail = await StudentsClass.findAll({
-        include: [
-          { model: User, where: { id: studentId } },
-          { model: LearningStatus },
-          { model: Class },
-        ],
+        where: { classId: classId },
+        include: [User, LearningStatus],
       });
 
       res.render("admin/class/student-detail", {
-        student,
+        classInfo,
         studentDetail,
         moment,
       });
@@ -155,23 +144,117 @@ module.exports = {
   },
   updateStudentDetail: async (req, res) => {
     try {
-      const studentId = req.params.id;
+      const studentId = req.query.studentId;
+      const classId = req.params.id;
+      const studentDetail = await StudentsClass.findOne({
+        where: { studentId: studentId, classId: classId },
+        include: [User, LearningStatus],
+      });
+      const learningStatuses = await LearningStatus.findAll();
+      res.render("admin/class/update-student-detail", {
+        studentDetail,
+        learningStatuses,
+        moment,
+      });
     } catch (error) {
       console.log(error);
       res.render("error");
     }
   },
+  handleUpdateStudentDetail: async (req, res) => {
+    const classId = req.params.id;
+    console.log(req.body);
+    res.redirect("/admin/class/manage-student/" + classId);
+  },
+  addStudentToClass: async (req, res) => {
+    const { keyword = "" } = req.query;
+    const classID = req.params.id;
+    const studentType = await Type.findOne({ where: { name: "student" } });
+    const students = await studentType.getUsers({
+      where: {
+        name: {
+          [Op.substring]: keyword,
+        },
+      },
+    });
+    res.render("admin/class/add-student", { students, keyword });
+  },
+  handleAddStudentToClass: async (req, res) => {
+    try {
+      const classId = req.params.id;
+      const classInfo = await Class.findByPk(classId);
+      const user = await User.findByPk(req.body.studentId, { include: Type });
+      if (user.Type.name === "student") {
+        await classInfo.addStudent(req.body.studentId);
+      }
+      res.redirect("/admin/class/manage-student/" + classId + "/add");
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  deleteStudentClass: async (req, res) => {
+    try {
+      const classId = req.params.id;
+      const classInfo = await Class.findByPk(classId);
+      const user = await User.findByPk(req.query.studentId, { include: Type });
+      if (user.Type.name === "student") {
+        await classInfo.removeStudent(req.query.studentId);
+      }
+      res.redirect("/admin/class/manage-student/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+
   manageTeacher: async (req, res) => {
     const classId = req.params.id;
     try {
       const class1 = await Class.findByPk(classId);
-      const teachers = await class1.getTeacher();
-      res.render("admin/class/teacher-class", { moment, class1, teachers });
+      const teacherClasses = await class1.getTeacher();
+      const teachers = await User.findAll({
+        include: {
+          model: Type,
+          where: { name: "teacher" },
+        },
+      });
+      res.render("admin/class/teacher-class", {
+        moment,
+        class1,
+        teachers,
+        teacherClasses,
+      });
     } catch (error) {
       console.log(error);
       res.render("error");
     }
   },
+  addTeacherClass: async (req, res) => {
+    try {
+      const classId = req.params.id;
+      const classInfo = await Class.findByPk(classId);
+      const user = await User.findByPk(req.body.teacherId, { include: Type });
+      if (user.Type.name === "teacher") {
+        await classInfo.addTeacher(req.body.teacherId);
+      }
+      res.redirect("/admin/class/manage-teacher/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  deleteTeacherClass: async (req, res) => {
+    try {
+      const classId = req.params.id;
+      const classInfo = await Class.findByPk(classId);
+      const user = await User.findByPk(req.body.teacherId, { include: Type });
+      if (user.Type.name === "teacher") {
+        await classInfo.removeTeacher(req.body.teacherId);
+      }
+      res.redirect("/admin/class/manage-teacher/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  exircise: async (req, res) => {},
   checkAttendance: async (req, res) => {
     let classSchedule = [];
     const classId = req.params.id;

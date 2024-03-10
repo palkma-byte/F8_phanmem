@@ -1,38 +1,38 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('TeacherCalendars', {
+    await queryInterface.createTable("TeacherCalendars", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       teacherId: {
         type: Sequelize.INTEGER,
-        references: { model: "Users", key: "id", },
-     
+        references: { model: "Users", key: "id" },
+        onDelete: "CASCADE",
       },
       classId: {
         type: Sequelize.INTEGER,
-        references: { model: "Classes", key: "id", },
-     
+        references: { model: "Classes", key: "id" },
+        onDelete: "CASCADE",
       },
       scheduleDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('TeacherCalendars');
-  }
+    await queryInterface.dropTable("TeacherCalendars");
+  },
 };

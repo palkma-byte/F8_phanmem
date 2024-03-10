@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="mt-5 mb-4">Add Students to Class</h1>
+
+  <!-- Existing form for adding students -->
+  <form action="" method="POST">
+    <div class="form-group">
+      <label for="studentId">Select Student:</label>
+      <select id="studentId" name="studentId" class="form-control" required>
+        <% students.forEach(student => { %>
+        <option value="<%= student.id %>"><%= student.name %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <!-- You can add more input fields or customize the form as needed -->
+
+    <button type="submit" class="btn btn-primary">Add Student to Class</button>
+  </form>
+
+  <!-- New search box -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <form action="" class="d-flex">
+        <input type="search" name="keyword" class="form-control" placeholder="Search students..." value="<%= keyword %>">
+        <button type="submit" class="btn btn-primary ml-2">Search</button>
+      </form>
+    </div>
+  </div>
+</div>

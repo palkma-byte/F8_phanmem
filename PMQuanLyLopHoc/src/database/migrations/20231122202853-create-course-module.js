@@ -14,7 +14,8 @@ module.exports = {
       },
       courseId: {
         type: Sequelize.INTEGER,
-        references: { model: "Courses", key: "id" },
+        references: { model: "Users", key: "id" },
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,

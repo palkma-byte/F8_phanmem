@@ -16,11 +16,13 @@ module.exports = {
         type: Sequelize.INTEGER,
 
         references: { model: "Users", key: "id" },
+        onDelete: "CASCADE",
       },
 
       classId: {
         type: Sequelize.INTEGER,
         references: { model: "Classes", key: "id" },
+        onDelete: "CASCADE",
       },
       status: {
         type: Sequelize.TINYINT,
