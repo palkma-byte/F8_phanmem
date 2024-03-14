@@ -11,6 +11,8 @@ const StudentController = require("../../http/controllers/admin/student.controll
 const ScheduleController = require("../../http/controllers/admin/schedule.controller");
 const RoleController = require("../../http/controllers/admin/role.controller");
 
+const { Setting } = require("../../models");
+
 //Middlewares
 const PermissionMiddleware = require("../../http/middlewares/PermissionMiddeware");
 
@@ -125,5 +127,26 @@ router.post("/role/manage/update/:id", RoleController.handleUpdate);
 router.post("/role/manage/delete/:id", RoleController.delete);
 router.get("/role/manage/add", RoleController.add);
 router.post("/role/manage/add", RoleController.handlAdd);
+
+// setting page
+router.get("/settings", async (req, res) => {
+  const settings = await Setting.findAll();
+  const value = new Object();
+  settings.forEach((setting) => {
+    value[setting.optKey] = setting.optValue;
+  });
+  console.log(value);
+  res.render("admin/setting/index", { value });
+});
+router.post("/settings", async (req, res) => {
+  const data = req.body;
+  for (const key in data) {
+    if (Object.hasOwnProperty.call(data, key)) {
+      await Setting.update({ optValue: data[key] }, { where: { optKey: key } });
+    }
+  }
+
+  res.redirect("/admin/settings");
+});
 
 module.exports = router;

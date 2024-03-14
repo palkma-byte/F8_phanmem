@@ -1,0 +1,43 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Danh sách khóa học:</h3>
+          </div>
+          <div class="card-body">
+            <!-- Table -->
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Tên</th>
+                  <th>Giá</th>
+                  <th>Thử học</th>
+                  <th>Số lớp học</th>
+                  <th>Số buổi</th>
+                  <th>Quản lý tài liệu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% courses.forEach(course => { %>
+                <tr>
+                  <td><%= course.name %></td>
+                  <td><%= course.price %></td>
+                  <td><%= course.tryLearn === 1 ? 'Có thể học thử' : 'Cần đăng ký' %></td>
+                  <td><%= course.quantity %></td>
+                  <td><%= course.duration %></td>
+                  <td>
+                    <a href="/admin/course/documents/<%= course.id %>" class="btn btn-secondary"><i class="fas fa-folder"></i> Quản lý tài liệu</a>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

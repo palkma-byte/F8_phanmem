@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Attendance Check</h2>
+  <form method="post" action="">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <!-- Replace these with dynamic dates from backend -->
+          <% classSchedule.forEach((day)=> { %>
+
+          <th><%= moment(day).format('DD/MM')%></th>
+
+          <% })%>
+          <!-- Add more dates here as needed -->
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach(student => {%>
+
+        <tr>
+          <td><%= student.name%></td>
+
+          <% classSchedule.forEach((day)=> { %>
+
+          <td>
+            <input type='checkbox' name='{"date":"<%= day %>", "studentId":<%=
+            student.id %>}' <%
+            if(moment(today).format("DD/MM/YYYY")!==moment(day).format("DD/MM/YYYY")){
+            %> disabled <% } %> <%if(attendedList.find((data)=>moment(data.dateLearning).format("DD/MM/YYYY")===moment(day).format("DD/MM/YYYY")&&data.studentId===student.id)!==undefined) { %> checked <% }%> />
+          </td>
+          <% })%>
+        </tr>
+
+        <% }); %>
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Submit Attendance</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS (optional, for certain Bootstrap components that require JS) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

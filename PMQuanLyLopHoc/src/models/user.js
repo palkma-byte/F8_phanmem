@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Class, {
         through: "StudentsClass",
         foreignKey: "studentId",
+        as: "ClassStudent",
       });
     }
   }

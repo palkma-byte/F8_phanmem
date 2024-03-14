@@ -12,11 +12,6 @@ module.exports = new FacebookStrategy(
     //Route callback. Người dùng sẽ được chuyển hướng đến route này sau khi xác thực tài khoản
   },
   async (request, accessToken, refreshToken, profile, done) => {
-    // Xử lý thông tin người dùng sau khi xác thực thành công
-    // Có thể tạo hoặc cập nhật tài khoản người dùng trong cơ sở dữ liệu
-    //if(req.user){ }
-
-    
     const { id, displayName, provider } = profile;
     const [social, createSocial] = await Social.findOrCreate({
       where: { name: provider },

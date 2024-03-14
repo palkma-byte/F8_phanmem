@@ -36,7 +36,7 @@
             <form action="/admin/course/modules/<%= course.id %>/add-document/<%= courseModule.id %>" method="POST">
               <div class="form-group">
                 <label for="documentPath">Document Path:</label>
-                <input type="text" id="documentPath" name="documentPath" class="form-control" required>
+                <input type="url" id="documentPath" name="documentPath" class="form-control" required>
               </div>
               <button type="submit" class="btn btn-primary">Add Document</button>
               <hr> <!-- Separator between module name and document -->

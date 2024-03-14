@@ -11,7 +11,7 @@ async function findAllCommentsWithReplies() {
 
   // Define async function to find replies recursively
   async function findReplies(comment) {
-    const replies = await comment.getReply(); // Assuming you have a getter function named getReplies to get the replies for a comment
+    const replies = await comment.getReply();
 
     // If the comment has replies, iterate through each reply and recursively find their replies
     for (const reply of replies) {

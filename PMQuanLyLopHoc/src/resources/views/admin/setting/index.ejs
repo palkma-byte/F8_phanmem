@@ -1,0 +1,128 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Settings</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <form id="settingsForm" method="POST" action="">
+        <!-- Authentication Settings -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Authentication Settings</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="SESSION_SECRET">SESSION_SECRET</label>
+              <input type="text" class="form-control" id="SESSION_SECRET" name="SESSION_SECRET" value="<%= value.SESSION_SECRET %>">
+            </div>
+            <div class="form-group">
+              <label for="FACEBOOK_APP_ID">FACEBOOK_APP_ID</label>
+              <input type="text" class="form-control" id="FACEBOOK_APP_ID" name="FACEBOOK_APP_ID" value="<%= value.FACEBOOK_APP_ID %>">
+            </div>
+            <div class="form-group">
+              <label for="FACEBOOK_APP_SECRET">FACEBOOK_APP_SECRET</label>
+              <input type="text" class="form-control" id="FACEBOOK_APP_SECRET" name="FACEBOOK_APP_SECRET" value="<%= value.FACEBOOK_APP_SECRET %>">
+            </div>
+            <div class="form-group">
+              <label for="GITHUB_APP_ID">GITHUB_APP_ID</label>
+              <input type="text" class="form-control" id="GITHUB_APP_ID" name="GITHUB_APP_ID" value="<%= value.GITHUB_APP_ID %>">
+            </div>
+            <div class="form-group">
+              <label for="GITHUB_APP_SECRET">GITHUB_APP_SECRET</label>
+              <input type="text" class="form-control" id="GITHUB_APP_SECRET" name="GITHUB_APP_SECRET" value="<%= value.GITHUB_APP_SECRET %>">
+            </div>
+            <div class="form-group">
+              <label for="GOOGLE_APP_ID">GOOGLE_APP_ID</label>
+              <input type="text" class="form-control" id="GOOGLE_APP_ID" name="GOOGLE_APP_ID" value="<%= value.GOOGLE_APP_ID %>">
+            </div>
+            <div class="form-group">
+              <label for="GOOGLE_APP_SECRET">GOOGLE_APP_SECRET</label>
+              <input type="text" class="form-control" id="GOOGLE_APP_SECRET" name="GOOGLE_APP_SECRET" value="<%= value.GOOGLE_APP_SECRET %>">
+            </div>
+            <div class="form-group">
+              <label for="GOOGLE_URL_CALLBACK">GOOGLE_URL_CALLBACK</label>
+              <input type="text" class="form-control" id="GOOGLE_URL_CALLBACK" name="GOOGLE_URL_CALLBACK" value="<%= value.GOOGLE_URL_CALLBACK %>">
+            </div>
+            <div class="form-group">
+              <label for="FACEBOOK_URL_CALLBACK">FACEBOOK_URL_CALLBACK</label>
+              <input type="text" class="form-control" id="FACEBOOK_URL_CALLBACK" name="FACEBOOK_URL_CALLBACK" value="<%= value.FACEBOOK_URL_CALLBACK %>">
+            </div>
+            <div class="form-group">
+              <label for="GITHUB_URL_CALLBACK">GITHUB_URL_CALLBACK</label>
+              <input type="text" class="form-control" id="GITHUB_URL_CALLBACK" name="GITHUB_URL_CALLBACK" value="<%= value.GITHUB_URL_CALLBACK %>">
+            </div>
+            <div class="form-group">
+              <label for="BCRYPT_SALT_ROUND">BCRYPT_SALT_ROUND</label>
+              <input type="text" class="form-control" id="BCRYPT_SALT_ROUND" name="BCRYPT_SALT_ROUND" value="<%= value.BCRYPT_SALT_ROUND %>">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mail Settings -->
+        <div class="card mt-4">
+          <div class="card-header">
+            <h3 class="card-title">Mail Settings</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="MAIL_HOST">MAIL_HOST</label>
+              <input type="text" class="form-control" id="MAIL_HOST" name="MAIL_HOST" value="<%= value.MAIL_HOST %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_USERNAME">MAIL_USERNAME</label>
+              <input type="text" class="form-control" id="MAIL_USERNAME" name="MAIL_USERNAME" value="<%= value.MAIL_USERNAME %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_PASSWORD">MAIL_PASSWORD</label>
+              <input type="text" class="form-control" id="MAIL_PASSWORD" name="MAIL_PASSWORD" value="<%= value.MAIL_PASSWORD %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_PORT">MAIL_PORT</label>
+              <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" value="<%= value.MAIL_PORT %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_SECURE">MAIL_SECURE</label>
+              <input type="text" class="form-control" id="MAIL_SECURE" name="MAIL_SECURE" value="<%= value.MAIL_SECURE %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_FROM">MAIL_FROM</label>
+              <input type="text" class="form-control" id="MAIL_FROM" name="MAIL_FROM" value="<%= value.MAIL_FROM %>">
+            </div>
+            <div class="form-group">
+              <label for="MAIL_FROM_NAME">MAIL_FROM_NAME</label>
+              <input type="text" class="form-control" id="MAIL_FROM_NAME" name="MAIL_FROM_NAME" value="<%= value.MAIL_FROM_NAME %>">
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Settings -->
+        <div class="card mt-4">
+          <div class="card-header">
+            <h3 class="card-title">Other Settings</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="JWT_SECRET">JWT_SECRET</label>
+              <input type="text" class="form-control" id="JWT_SECRET" name="JWT_SECRET" value="<%= value.JWT_SECRET %>">
+            </div>
+            <!-- Add other form fields for additional settings here -->
+          </div>
+        </div>
+        <button type="submit" id="saveSettingsBtn" class="btn btn-primary mt-4">Save Settings</button>
+      </form>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

@@ -6,6 +6,7 @@ const {
   User,
   StudentsAttendance,
   Type,
+  Exercise,
 } = require("../../../models");
 var moment = require("moment");
 const { Op } = require("sequelize");
@@ -254,7 +255,7 @@ module.exports = {
       res.render("error");
     }
   },
-  exircise: async (req, res) => {},
+
   checkAttendance: async (req, res) => {
     let classSchedule = [];
     const classId = req.params.id;
