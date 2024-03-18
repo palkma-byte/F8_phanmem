@@ -73,9 +73,28 @@ module.exports = {
     }
   },
   handleUpdate: async (req, res) => {
-    res.send(req.body);
+    try {
+      const { updatedComment, commentId } = req.body;
+      await Comment.update(
+        {
+          content: md.render(updatedComment),
+        },
+        { where: { id: commentId } }
+      );
+      res.redirect("/admin/comment");
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
   },
   handleDelete: async (req, res) => {
-    res.send(req.body);
+    try {
+      const { commentId } = req.body;
+      await Comment.destroy({ where: { id: commentId } });
+      res.redirect("/admin/comment");
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
   },
 };
