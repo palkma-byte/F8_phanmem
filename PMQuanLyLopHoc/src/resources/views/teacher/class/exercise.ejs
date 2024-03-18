@@ -1,0 +1,119 @@
+<div class="content">
+  <div class="container-fluid">
+    <!-- Display Exercises -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Exercises</h3>
+            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#createExerciseModal"><i class="fas fa-plus"></i> Add Exercise</button>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Content</th>
+                  <th>Attachment</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+                  <th>Submission</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Display exercises here -->
+                <% exercises.forEach(exercise => { %>
+                <tr>
+                  <td><%= exercise.title %></td>
+                  <td><%= exercise.content.length > 50 ? exercise.content.substring(0, 50) + '...' : exercise.content %></td>
+                  <td><%= exercise.attachment.length > 50 ? exercise.attachment.substring(0, 50) + '...' : exercise.attachment %></td>
+                  <td>
+                    <!-- Update Button -->
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#updateExerciseModal<%= exercise.id %>"><i class="fas fa-edit"></i> Update</button>
+                  </td>
+                  <td>
+                    <!-- Delete Button -->
+                    <form action="/teacher/class/exercise/<%= classId %>/delete/<%= exercise.id %>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                    </form>
+                  </td>
+                  <td> <a href="/teacher/class/exercise/<%= classId %>/submission/<%= exercise.id %>" class="btn btn-sm btn-primary">Check Submission</a>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Exercise Modal -->
+    <div class="modal fade" id="createExerciseModal" tabindex="-1" role="dialog" aria-labelledby="createExerciseModalLabel" aria-hidden="true">
+      <!-- Modal Content -->
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createExerciseModalLabel">Create Exercise</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Create Exercise Form -->
+            <form action="/teacher/class/exercise/<%= classId %>/create" method="POST">
+              <div class="form-group">
+                <label for="exerciseTitle">Title:</label>
+                <input type="text" id="exerciseTitle" name="exerciseTitle" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="exerciseContent">Content:</label>
+                <textarea id="exerciseContent" name="exerciseContent" class="form-control" rows="3" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="exerciseAttachment">Attachment:</label>
+                <input type="url" id="exerciseAttachment" name="exerciseAttachment" class="form-control-file">
+              </div>
+              <button type="submit" class="btn btn-primary">Create Exercise</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Exercise Modals -->
+    <% exercises.forEach(exercise => { %>
+    <div class="modal fade" id="updateExerciseModal<%= exercise.id %>" tabindex="-1" role="dialog" aria-labelledby="updateExerciseModalLabel" aria-hidden="true">
+      <!-- Modal Content -->
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateExerciseModalLabel">Update Exercise: <%= exercise.title %></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Update Exercise Form -->
+            <form action="/teacher/class/exercise/<%= classId %>/update/<%= exercise.id %>" method="POST">
+              <div class="form-group">
+                <label for="updatedExerciseTitle">Title:</label>
+                <input type="text" id="updatedExerciseTitle" name="updatedExerciseTitle" class="form-control" value="<%= exercise.title %>" required>
+              </div>
+              <div class="form-group">
+                <label for="updatedExerciseContent">Content:</label>
+                <textarea id="updatedExerciseContent" name="updatedExerciseContent" class="form-control" rows="3" required><%= exercise.content %></textarea>
+              </div>
+              <div class="form-group">
+                <label for="updatedExerciseAttachment">Attachment:</label>
+                <input type="url" id="updatedExerciseAttachment" name="updatedExerciseAttachment" value="<%= exercise.attachment %>" class="form-control-file">
+              </div>
+              <button type="submit" class="btn btn-primary">Update Exercise</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</div>

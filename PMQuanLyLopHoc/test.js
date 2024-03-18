@@ -11,18 +11,22 @@ const {
   Type,
   CourseModule,
   ModuleDocument,
+  ExercisesSubmit,
+  Exercise,
 } = require("./src/models");
 const { Op } = require("sequelize");
 async function test() {
-  const user = await User.findByPk(3);
-  const classes = await user.getClasses();
-  const coursesPromises = classes.map(async (classInfo) => {
-    return await classInfo.getCourse();
+  const a = await Class.findByPk(5, {
+    include: {
+      model: Course,
+      include: {
+        model: CourseModule,
+        as: "Module",
+        include: { model: ModuleDocument, as: "documents" }, // Use the alias 'documents'
+      },
+    },
   });
-
-  const courses = await Promise.all(coursesPromises);
-
-  console.log(courses);
+  console.log(a.Course.Module[0].documents);
 }
 //kkkkkk
 test();

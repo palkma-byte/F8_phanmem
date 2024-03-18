@@ -1,0 +1,138 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Part for assignments not yet submitted -->
+      <div class="col-md-6">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Assignments Not Submitted</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <ul class="list-group">
+              <% notSubmittedAssignments.forEach(assignment => { %>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="fas fa-circle mr-2"></i><%= assignment.title %></span>
+                  <button class="btn btn-sm btn-info" onclick="showDetail('<%= assignment.id %>')">Detail</button>
+                </div>
+                <div class="assignment-detail" id="detail-<%= assignment.id %>" style="display: none;">
+                  <p><strong>Content:</strong> <%= assignment.content %></p>
+                  <p><strong>Attachment:</strong> <a href="<%= assignment.attachment %>"><%= assignment.attachment %></a></p>
+                  <!-- Button to submit homework -->
+                  <button class="btn btn-sm btn-primary mt-2" data-toggle="modal" data-target="#submitModal<%= assignment.id %>">Submit Homework</button>
+                  <!-- Submit Homework Modal -->
+                  <div class="modal fade" id="submitModal<%= assignment.id %>" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel<%= assignment.id %>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="submitModalLabel<%= assignment.id %>">Submit Homework</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <!-- Form to submit homework -->
+                          <form method="post" action="/student/class/homework/<%= classId %>/submit">
+                            <div class="form-group">
+                              <label for="homeworkContent">Content:</label>
+                              <textarea class="form-control" id="homeworkContent" name="content" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                              <label for="homeworkAttachment">Attachment:</label>
+                              <input type="text" class="form-control" id="homeworkAttachment" name="attachment" required>
+                            </div>
+                            <input type="hidden" name="assignmentId" value="<%= assignment.id %>">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <% }); %>
+            </ul>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+
+      <!-- Part for assignments already submitted -->
+      <div class="col-md-6">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Assignments Already Submitted</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <ul class="list-group">
+              <% submittedAssignments.forEach(assignment => { %>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="fas fa-check-circle mr-2"></i><%= assignment.title %></span>
+                  <button class="btn btn-sm btn-info" onclick="showDetail('<%= assignment.id %>')">Detail</button>
+                </div>
+                <div class="assignment-detail" id="detail-<%= assignment.id %>" style="display: none;">
+                  <p><strong>Content:</strong> <%= assignment.content %></p>
+                  <p><strong>Attachment:</strong> <a href="<%= assignment.attachment %>"><%= assignment.attachment %></a></p>
+                  <!-- Button to update homework -->
+                  <button class="btn btn-sm btn-primary mt-2" data-toggle="modal" data-target="#updateModal<%= assignment.id %>">Update Homework</button>
+                  <!-- Update Homework Modal -->
+                  <div class="modal fade" id="updateModal<%= assignment.id %>" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel<%= assignment.id %>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="updateModalLabel<%= assignment.id %>">Update Homework</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <!-- Form to update homework -->
+                          <form method="post" action="/student/class/homework/<%= classId %>/update">
+                            <div class="form-group">
+                              <label for="updatedHomeworkContent">Content:</label>
+                              <textarea class="form-control" id="updatedHomeworkContent" name="content" rows="3" required><%= assignment.Submit[0].content %></textarea>
+                            </div>
+                            <div class="form-group">
+                              <label for="updatedHomeworkAttachment">Attachment:</label>
+                              <input type="text" class="form-control" id="updatedHomeworkAttachment" name="attachment" value="<%= assignment.Submit[0].attachment %>" required>
+                            </div>
+                            <input type="hidden" name="submitId" value="<%= assignment.Submit[0].id %>">
+                            <input type="hidden" name="assignmentId" value="<%= assignment.id %>">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <% }); %>
+            </ul>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+<script>
+  function showDetail(assignmentId) {
+    const detailDiv = document.getElementById('detail-' + assignmentId);
+    if (detailDiv.style.display === 'none') {
+      detailDiv.style.display = 'block';
+    } else {
+      detailDiv.style.display = 'none';
+    }
+  }
+</script>

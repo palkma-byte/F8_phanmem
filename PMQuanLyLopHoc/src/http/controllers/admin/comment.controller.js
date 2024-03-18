@@ -38,7 +38,7 @@ module.exports = {
   index: async (req, res) => {
     try {
       const allComments = await findAllCommentsWithReplies();
-      res.render("admin/comment/comment", { allComments, Comment });
+      res.render("admin/comment/comment", { allComments });
     } catch (error) {
       console.log(error);
       res.render("error");
@@ -71,5 +71,11 @@ module.exports = {
       console.log(error);
       res.render("error");
     }
+  },
+  handleUpdate: async (req, res) => {
+    res.send(req.body);
+  },
+  handleDelete: async (req, res) => {
+    res.send(req.body);
   },
 };

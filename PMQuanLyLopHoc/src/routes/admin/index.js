@@ -20,8 +20,16 @@ const PermissionMiddleware = require("../../http/middlewares/PermissionMiddeware
 router.get("/home", UserController.index);
 //user manager
 router.get("/manage", UserController.manager);
-router.get("/manage/update/:id", UserController.updateUser);
-router.post("/manage/update/:id", UserController.handleUpdateUser);
+router.get(
+  "/manage/update/:id",
+  PermissionMiddleware("update"),
+  UserController.updateUser
+);
+router.post(
+  "/manage/update/:id",
+  PermissionMiddleware("update"),
+  UserController.handleUpdateUser
+);
 router.post(
   "/manage/delete/:id",
   PermissionMiddleware("delete"),
@@ -34,69 +42,141 @@ router.get("/manage/permission/:id", UserController.permission);
 router.post("/manage/permission/:id/add-role", UserController.handleAddRole);
 router.post(
   "/manage/permission/:id/delete-role",
+  PermissionMiddleware("delete"),
   UserController.handleDeleteRole
 );
 router.post(
   "/manage/permission/:id/update-permissions",
+  PermissionMiddleware("update"),
   UserController.handleUpdatePermission
 );
 //chart
 router.get("/api/chart", UserController.chartApi);
 //course manager
 router.get("/course", CourseController.manageCourse);
-router.get("/course/add", CourseController.addCourse);
-router.post("/course/add", CourseController.handleAddCourse);
-router.get("/course/update/:id", CourseController.updateCourse);
-router.post("/course/update/:id", CourseController.handleUpdateCourse);
-router.post("/course/delete/:id", CourseController.deleteCourse);
+router.get(
+  "/course/add",
+  PermissionMiddleware("create"),
+  CourseController.addCourse
+);
+router.post(
+  "/course/add",
+  PermissionMiddleware("create"),
+  CourseController.handleAddCourse
+);
+router.get(
+  "/course/update/:id",
+  PermissionMiddleware("update"),
+  CourseController.updateCourse
+);
+router.post(
+  "/course/update/:id",
+  PermissionMiddleware("update"),
+  CourseController.handleUpdateCourse
+);
+router.post(
+  "/course/delete/:id",
+  PermissionMiddleware("delete"),
+  CourseController.deleteCourse
+);
 router.get("/course/modules/:id", CourseController.modules);
-router.post("/course/modules/:id/add-module", CourseController.handleAddModule);
+router.post(
+  "/course/modules/:id/add-module",
+  PermissionMiddleware("create"),
+  CourseController.handleAddModule
+);
 
 router.post(
   "/course/modules/:id/delete-module/:moduleId",
+  PermissionMiddleware("delete"),
   CourseController.deleteModule
 );
 router.post(
   "/course/modules/:courseId/add-document/:moduleId",
+  PermissionMiddleware("create"),
   CourseController.handleAddDocument
 );
 router.post(
   "/course/modules/:courseId/delete-document",
+  PermissionMiddleware("delete"),
   CourseController.deleteDocument
+);
+router.post(
+  "/course/modules/:courseId/update-module/:moduleId",
+  PermissionMiddleware("update"),
+  CourseController.handleUpdateModule
+);
+router.post(
+  "/course/modules/:courseId/update-document/:documentId",
+  PermissionMiddleware("update"),
+  CourseController.handleUpdateDocument
 );
 
 //class manage
 router.get("/course/manage-class/:id", ClassController.manageClass);
-router.get("/course/manage-class/add/:id", ClassController.addClass);
-router.post("/course/manage-class/add/:id", ClassController.handleAddClass);
+router.get(
+  "/course/manage-class/add/:id",
+  PermissionMiddleware("create"),
+  ClassController.addClass
+);
+router.post(
+  "/course/manage-class/add/:id",
+  PermissionMiddleware("create"),
+  ClassController.handleAddClass
+);
 
-router.get("/class/update/:id", ClassController.updateClass);
-router.post("/class/update/:id", ClassController.handleUpdateClass);
+router.get(
+  "/class/update/:id",
+  PermissionMiddleware("update"),
+  ClassController.updateClass
+);
+router.post(
+  "/class/update/:id",
+  PermissionMiddleware("update"),
+  ClassController.handleUpdateClass
+);
 
-router.post("/class/delete/:id", ClassController.deleteClass);
+router.post(
+  "/class/delete/:id",
+  PermissionMiddleware("delete"),
+  ClassController.deleteClass
+);
 
 router.get("/class/manage-student/:id", ClassController.studentDetail);
 router.get(
   "/class/manage-student/:id/update",
+  PermissionMiddleware("update"),
   ClassController.updateStudentDetail
 );
-router.get("/class/manage-student/:id/add", ClassController.addStudentToClass);
+router.get(
+  "/class/manage-student/:id/add",
+  PermissionMiddleware("create"),
+  ClassController.addStudentToClass
+);
 router.post(
   "/class/manage-student/:id/add",
+  PermissionMiddleware("create"),
   ClassController.handleAddStudentToClass
 );
 router.post(
   "/class/manage-student/:id/update",
+  PermissionMiddleware("update"),
   ClassController.handleUpdateStudentDetail
 );
 router.post(
   "/class/manage-student/:id/delete",
+  PermissionMiddleware("delete"),
   ClassController.deleteStudentClass
 );
 router.get("/class/manage-teacher/:id", ClassController.manageTeacher);
-router.post("/class/manage-teacher/:id/add", ClassController.addTeacherClass);
+router.post(
+  "/class/manage-teacher/:id/add",
+  PermissionMiddleware("create"),
+  ClassController.addTeacherClass
+);
 router.post(
   "/class/manage-teacher/:id/delete",
+  PermissionMiddleware("delete"),
   ClassController.deleteTeacherClass
 );
 
@@ -115,6 +195,8 @@ router.post(
   CommentController.handlePost
 );
 router.post("/reply", CommentController.handlePostReply);
+router.post("/comment/delete", CommentController.handleDelete);
+router.post("/comment/update", CommentController.handleUpdate);
 
 // test schedule
 router.get("/schedule", ScheduleController.index);
@@ -122,11 +204,31 @@ router.get("/api/schedule", ScheduleController.startDate);
 
 //phan quyen
 router.get("/role/manage", RoleController.manageRole);
-router.get("/role/manage/update/:id", RoleController.update);
-router.post("/role/manage/update/:id", RoleController.handleUpdate);
-router.post("/role/manage/delete/:id", RoleController.delete);
-router.get("/role/manage/add", RoleController.add);
-router.post("/role/manage/add", RoleController.handlAdd);
+router.get(
+  "/role/manage/update/:id",
+  PermissionMiddleware("update"),
+  RoleController.update
+);
+router.post(
+  "/role/manage/update/:id",
+  PermissionMiddleware("update"),
+  RoleController.handleUpdate
+);
+router.post(
+  "/role/manage/delete/:id",
+  PermissionMiddleware("delete"),
+  RoleController.delete
+);
+router.get(
+  "/role/manage/add",
+  PermissionMiddleware("create"),
+  RoleController.add
+);
+router.post(
+  "/role/manage/add",
+  PermissionMiddleware("create"),
+  RoleController.handlAdd
+);
 
 // setting page
 router.get("/settings", async (req, res) => {

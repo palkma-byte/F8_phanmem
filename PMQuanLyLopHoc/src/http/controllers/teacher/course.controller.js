@@ -25,7 +25,11 @@ module.exports = {
       where: { courseId: req.params.id },
       include: "documents",
     });
-    res.render("teacher/course/modules", { course, modules });
+    res.render("teacher/course/document", {
+      course,
+      modules,
+      layout: "layout/teacher.layout.ejs",
+    });
   },
 
   handleAddModule: async (req, res) => {
@@ -45,6 +49,32 @@ module.exports = {
         pathName: req.body.documentPath,
         moduleId: req.params.moduleId,
       });
+      res.redirect("/teacher/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleUpdateModule: async (req, res) => {
+    try {
+      await CourseModule.update(
+        { name: req.body.updatedModuleName },
+        {
+          where: { id: req.params.moduleId },
+        }
+      );
+      res.redirect("/teacher/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleUpdateDocument: async (req, res) => {
+    try {
+      await ModuleDocument.update(
+        { pathName: req.body.updatedDocumentPath },
+        {
+          where: { id: req.params.documentId },
+        }
+      );
       res.redirect("/teacher/course/modules/" + req.params.courseId);
     } catch (error) {
       res.render("error");

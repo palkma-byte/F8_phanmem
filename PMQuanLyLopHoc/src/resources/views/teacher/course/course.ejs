@@ -17,6 +17,7 @@
                   <th>Số lớp học</th>
                   <th>Số buổi</th>
                   <th>Quản lý tài liệu</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -28,8 +29,9 @@
                   <td><%= course.quantity %></td>
                   <td><%= course.duration %></td>
                   <td>
-                    <a href="/admin/course/documents/<%= course.id %>" class="btn btn-secondary"><i class="fas fa-folder"></i> Quản lý tài liệu</a>
+                    <a href="/teacher/course/modules/<%= course.id %>" class="btn btn-secondary"><i class="fas fa-folder"></i> Quản lý tài liệu</a>
                   </td>
+
                 </tr>
                 <% }); %>
               </tbody>

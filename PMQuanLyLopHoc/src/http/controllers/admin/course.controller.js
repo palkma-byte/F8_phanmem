@@ -123,4 +123,30 @@ module.exports = {
       res.render("error");
     }
   },
+  handleUpdateModule: async (req, res) => {
+    try {
+      await CourseModule.update(
+        { name: req.body.updatedModuleName },
+        {
+          where: { id: req.params.moduleId },
+        }
+      );
+      res.redirect("/admin/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleUpdateDocument: async (req, res) => {
+    try {
+      await ModuleDocument.update(
+        { pathName: req.body.updatedDocumentPath },
+        {
+          where: { id: req.params.documentId },
+        }
+      );
+      res.redirect("/admin/course/modules/" + req.params.courseId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
 };

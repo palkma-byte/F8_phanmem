@@ -5,17 +5,20 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">
-              Danh sach tat ca Giang vien cua <%= class1.name %>
+              Danh sách tất cả Giảng viên của <%= class1.name %>
             </h3>
           </div>
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-6">
+
                 <a href="" class="btn btn-info mr-2">Export excel</a>
+
               </div>
             </div>
 
             <!-- Add Teacher Form -->
+            <% if (userPerm.includes('create')) { %>
             <div class="card mb-4">
               <div class="card-header">
                 <h4>Thêm Giảng viên</h4>
@@ -34,6 +37,7 @@
                 </form>
               </div>
             </div>
+            <% } %>
 
             <!-- Teacher Table -->
             <div class="card">
@@ -43,8 +47,9 @@
                     <tr>
                       <th>Stt</th>
                       <th>Name</th>
-
+                      <% if (userPerm.includes('delete')) { %>
                       <th>Delete</th>
+                      <% } %>
                     </tr>
                   </thead>
                   <tbody>
@@ -53,7 +58,7 @@
                     <tr>
                       <td><%= stt %></td>
                       <td><%= teacherClass.name %></td>
-
+                      <% if (userPerm.includes('delete')) { %>
                       <td>
                         <form action="/admin/class/manage-teacher/<%= class1.id %>/delete" method="POST">
                           <input type="hidden" name="teacherId" value="<%= teacherClass.id %>">
@@ -62,6 +67,7 @@
                           </button>
                         </form>
                       </td>
+                      <% } %>
                     </tr>
                     <% stt++; %>
                     <% }); %>

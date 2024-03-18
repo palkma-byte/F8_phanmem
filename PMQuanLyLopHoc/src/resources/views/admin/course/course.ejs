@@ -4,12 +4,14 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Danh sach Course</h3>
+            <h3 class="card-title">Danh sách Course</h3>
           </div>
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-6">
+                <% if (userPerm.includes('create')) { %>
                 <a href="/admin/course/add" class="btn btn-success mr-2"><i class="fas fa-plus-circle"></i> Add new course</a>
+                <% } %>
                 <a href="/admin/course/export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Export excel</a>
               </div>
               <div class="col-6 d-flex align-items-center">
@@ -38,8 +40,12 @@
                     <th>Thời lượng (buổi)</th>
                     <th>Quản lý lớp của khóa học</th>
                     <th>Quản lý chương học</th>
+                    <% if (userPerm.includes('update')) { %>
                     <th>Update</th>
+                    <% } %>
+                    <% if (userPerm.includes('delete')) { %>
                     <th>Delete</th>
+                    <% } %>
                   </tr>
                 </thead>
                 <tbody>
@@ -59,10 +65,13 @@
                       <a href="/admin/course/modules/<%= course.id %>" class="btn btn-primary mr-2"><i class="fas fa-book"></i>
                       </a>
                     </td>
+                    <% if (userPerm.includes('update')) { %>
                     <td>
                       <a href="/admin/course/update/<%= course.id %>" class="btn btn-primary mr-2"><i class="fas fa-edit"></i>
                       </a>
                     </td>
+                    <% } %>
+                    <% if (userPerm.includes('delete')) { %>
                     <td>
                       <form action="/admin/course/delete/<%= course.id %>" method="post" style="display: inline">
                         <button type="submit" class="btn btn-danger">
@@ -70,6 +79,7 @@
                         </button>
                       </form>
                     </td>
+                    <% } %>
                   </tr>
                   <% }); %>
                 </tbody>

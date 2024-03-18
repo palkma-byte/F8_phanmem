@@ -86,7 +86,6 @@ module.exports = {
       const { count, rows } = await User.findAndCountAll(option);
       data = rows;
       const totalPage = Math.ceil(count / pageSize);
-
       res.render("admin/user/user-manager", {
         user,
         rows,

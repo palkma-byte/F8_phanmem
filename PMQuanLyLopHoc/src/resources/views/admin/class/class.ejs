@@ -4,25 +4,15 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
+            <p><%= userName %></p>
             <h3 class="card-title">Danh sach tat ca Class cua <%= course.name %></h3>
           </div>
           <div class="card-body">
             <div class="row mb-3">
-              <div class="col-6">
+              <div class="col-12">
+                <% if (userPerm.includes('create')) { %>
                 <a href="/admin/course/manage-class/add/<%= course.id %>" class="btn btn-success mr-2"><i class="fas fa-plus-circle"></i> Add new class</a>
-                <a href="/admin/course/class-export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Export excel</a>
-              </div>
-              <div class="col-6 d-flex align-items-center">
-                <div class="col-3">
-                  <form action="" class="mb-3 d-flex">
-                    <label class="mr-2">Items Display:</label>
-                    <select name="pageSize" class="form-control" onchange="this.form.submit()">
-                      <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
-                      <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
-                      <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
-                    </select>
-                  </form>
-                </div>
+                <% } %>
               </div>
             </div>
 
@@ -41,10 +31,12 @@
                     <th>Quan ly hoc vien</th>
                     <th>Quan ly giang vien</th>
                     <th>Điểm danh</th>
-
+                    <% if (userPerm.includes('update')) { %>
                     <th>Cập nhật</th>
+                    <% } %>
+                    <% if (userPerm.includes('delete')) { %>
                     <th>Xóa</th>
-
+                    <% } %>
                   </tr>
                 </thead>
                 <tbody>
@@ -66,46 +58,27 @@
                     <td>
                       <a href="/admin/class/attendance/<%= row.id %>" class="btn btn-secondary"><i class="fas fa-calendar-check"></i> </a>
                     </td>
+
+                    <% if (userPerm.includes('update')) { %>
                     <td>
                       <a href="/admin/class/update/<%= row.id %>" class="btn btn-primary mr-2"><i class="fas fa-edit"></i> </a>
                     </td>
+                    <% } %>
+
+
+                    <% if (userPerm.includes('delete')) { %>
                     <td>
                       <form action="/admin/class/delete/<%= row.id %>" method="post" style="display: inline">
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                       </form>
                     </td>
+                    <% } %>
 
                   </tr>
                   <% }); %>
                 </tbody>
               </table>
             </div>
-            <!-- /.card-body -->
-            <% if (totalPage > 1) { %>
-            <nav class="d-flex justify-content-end">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="?page=1">Đầu</a>
-                </li>
-                <% if (page > 1) { %>
-                <li class="page-item">
-                  <a class="page-link" href="?page=<%= +page - 1 %>">Trước</a>
-                </li>
-                <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
-                <li class="page-item <%= +page === +i ? 'active': '' %>">
-                  <a class="page-link" href="?page=<%= +i %>"><%= i %></a>
-                </li>
-                <% } %> <% if (page < totalPage ) { %>
-                <li class="page-item">
-                  <a class="page-link" href="?page=<%= +page + 1 %>">Sau</a>
-                </li>
-                <% } %>
-                <li class="page-item">
-                  <a class="page-link" href="?page=<%= totalPage %>">Cuối</a>
-                </li>
-              </ul>
-            </nav>
-            <% } %>
           </div>
         </div>
       </div>

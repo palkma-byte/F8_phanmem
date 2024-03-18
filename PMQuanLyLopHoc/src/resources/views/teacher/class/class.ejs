@@ -17,10 +17,11 @@
                   <th>Ngày bắt đầu</th>
                   <th>Ngày bế giảng</th>
                   <th>Thời khóa biểu</th>
-                  <th>Thời gian học</th>
+                  <th>Thời gian vào học</th>
                   <th>Quản lý học viên</th>
                   <th>Điểm danh</th>
                   <th>Quản lý bài tập</th>
+                  <th>Phần bình luận</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,6 +42,8 @@
                   </td>
                   <td>
                     <a href="/teacher/class/exercise/<%= row.id %>" class="btn btn-secondary"><i class="fas fa-tasks"></i> </a>
+                  </td>
+                  <td> <a href="/teacher/class/<%= row.id %>/comment" class="btn btn-secondary"><i class="fas fa-comments"></i> </a>
                   </td>
                 </tr>
                 <% }); %>

@@ -1,0 +1,8 @@
+<% submissions.forEach(submission => { %>
+<div class="comment">
+  <div class="author">Tên người nộp: <%= submission.User.name %></div>
+  <div class="content">Nội dung: <%= submission.content %></div>
+  <div class="attachment">Đính kèm: <%= submission.attachment %></div>
+  <div class="created-at">Lúc: <%= moment(submission.createdAt).fromNow() %></div>
+</div>
+<% }); %>

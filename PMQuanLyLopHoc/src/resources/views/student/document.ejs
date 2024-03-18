@@ -1,0 +1,36 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <h1>Module and document of <%= classInfo.name %></h1>
+          <div class="card-body">
+            <% classInfo.Course.Module.forEach(courseModule => { %>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Module Name: <%= courseModule.name %></h3>
+              </div>
+              <div class="card-body">
+                <div class="mt-3">
+                  <h5>Documents:</h5>
+                  <ul class="list-unstyled">
+                    <% if (courseModule.documents && courseModule.documents.length > 0) { %>
+                    <% courseModule.documents.forEach(document => { %>
+                    <li>
+                      <a href="<%= document.pathName %>"><%= document.pathName %></a>
+                    </li>
+                    <% }); %>
+                    <% } else { %>
+                    <p>No documents available for this module.</p>
+                    <% } %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -86,8 +86,8 @@ app.use(getType);
 
 app.use("/student", studentRouter);
 app.use("/teacher", teacherRouter);
-
-app.use("/admin", getUserPermission, adminRouter);
+app.use(getUserPermission);
+app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

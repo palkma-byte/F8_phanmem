@@ -4,20 +4,61 @@ const {
   LearningStatus,
   StudentsClass,
   StudentsAttendance,
+  Exercise,
 } = require("../../../models");
 var moment = require("moment");
+const markdownit = require("markdown-it");
+const md = markdownit();
+const { Comment } = require("../../../models");
+async function findAllCommentsWithReplies(classId) {
+  const allComments = [];
+
+  // Find all top-level comments (comments without parent)
+  const topLevelComments = await Comment.findAll({
+    where: { parentId: null, classId: classId }, // Assuming parentId is the foreign key for the parent comment
+  });
+
+  // Define async function to find replies recursively
+  async function findReplies(comment) {
+    const replies = await comment.getReply();
+
+    // If the comment has replies, iterate through each reply and recursively find their replies
+    for (const reply of replies) {
+      await findReplies(reply); // Recursively find replies for this reply
+    }
+
+    // Attach replies to the parent comment
+    comment.reply = replies;
+
+    // Child comments won't be added directly to the allComments array
+    // Only top-level comments will be added
+    if (!comment.parentId) {
+      allComments.push(comment);
+    }
+  }
+
+  // Iterate through each top-level comment and find its replies
+  for (const comment of topLevelComments) {
+    await findReplies(comment);
+  }
+  return allComments;
+}
 module.exports = {
   home: (req, res) => {
     res.render("teacher/home", { layout: "layout/teacher.layout.ejs" });
   },
   class: async (req, res) => {
-    const user = await User.findByPk(req.user.id);
-    const classes = await user.getClasses();
-    res.render("teacher/class/class", {
-      classes,
-      moment,
-      layout: "layout/teacher.layout.ejs",
-    });
+    try {
+      const user = await User.findByPk(req.user.id);
+      const classes = await user.getClasses();
+      res.render("teacher/class/class", {
+        classes,
+        moment,
+        layout: "layout/teacher.layout.ejs",
+      });
+    } catch (error) {
+      res.render("error");
+    }
   },
   studentDetail: async (req, res) => {
     try {
@@ -182,6 +223,153 @@ module.exports = {
         });
       });
       res.redirect("/teacher/class/attendance/" + classId);
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  exercise: async (req, res) => {
+    try {
+      const classId = req.params.classId;
+      const exercises = await Exercise.findAll({ where: { classId: classId } });
+      res.render("teacher/class/exercise", {
+        exercises,
+        classId,
+        layout: "layout/teacher.layout.ejs",
+      });
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleCreateExercise: async (req, res) => {
+    try {
+      const { classId } = req.params;
+      const { exerciseTitle, exerciseContent, exerciseAttachment } = req.body;
+      await Exercise.create({
+        classId: classId,
+        title: exerciseTitle,
+        content: exerciseContent,
+        attachment: exerciseAttachment,
+      });
+      res.redirect("/teacher/class/exercise/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleUpdateExercise: async (req, res) => {
+    try {
+      const { classId, exerciseId } = req.params;
+      const {
+        updatedExerciseTitle,
+        updatedExerciseContent,
+        updatedExerciseAttachment,
+      } = req.body;
+      await Exercise.update(
+        {
+          title: updatedExerciseTitle,
+          content: updatedExerciseContent,
+          attachment: updatedExerciseAttachment,
+        },
+        { where: { id: exerciseId } }
+      );
+      res.redirect("/teacher/class/exercise/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  handleDeleteExercise: async (req, res) => {
+    try {
+      const { classId, exerciseId } = req.params;
+
+      await Exercise.destroy({
+        where: { id: exerciseId },
+      });
+      res.redirect("/teacher/class/exercise/" + classId);
+    } catch (error) {
+      res.render("error");
+    }
+  },
+  checkSubmit: async (req, res) => {
+    const { classId, exerciseId } = req.params;
+
+    const exercise = await Exercise.findByPk(exerciseId, {
+      include: { association: "Submit", include: User },
+    });
+    const submissions = exercise.Submit;
+    res.render("teacher/class/submited", {
+      submissions,
+      moment,
+      classId,
+      layout: "layout/teacher.layout.ejs",
+    });
+  },
+  comment: async (req, res) => {
+    try {
+      const { classId } = req.params;
+      const allComments = await findAllCommentsWithReplies(classId);
+      res.render("teacher/class/comment", {
+        allComments,
+        classId,
+        layout: "layout/teacher.layout.ejs",
+      });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  handlePost: async (req, res) => {
+    try {
+      const { comment } = req.body;
+      const { classId } = req.params;
+      await Comment.create({
+        classId: classId,
+        content: md.render(comment),
+        attachment: JSON.stringify(req.file),
+        title: req.user.name,
+      });
+      res.redirect(`/teacher/class/${classId}/comment`);
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  handlePostReply: async (req, res) => {
+    try {
+      console.log(req.body);
+      const { classId } = req.params;
+      await Comment.create({
+        content: md.render(req.body.reply),
+        title: req.user.name,
+        parentId: req.body.parentId,
+      });
+      res.redirect(`/teacher/class/${classId}/comment`);
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  handleUpdate: async (req, res) => {
+    try {
+      const { classId } = req.params;
+      const { updatedComment, commentId } = req.body;
+      await Comment.update(
+        {
+          content: md.render(updatedComment),
+        },
+        { where: { id: commentId } }
+      );
+      res.redirect(`/teacher/class/${classId}/comment`);
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  handleDelete: async (req, res) => {
+    try {
+      const { classId } = req.params;
+      const { commentId } = req.body;
+      await Comment.destroy({ where: { id: commentId } });
+      res.redirect(`/teacher/class/${classId}/comment`);
     } catch (error) {
       console.log(error);
       res.render("error");

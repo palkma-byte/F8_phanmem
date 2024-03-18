@@ -1,11 +1,11 @@
 const { User, Role, Permission } = require("../../models");
 
 const getUserPermission = async (req, res, next) => {
-  if (!req.session.userPermissions && req.user) {
+  try {
     const user = await User.findByPk(req.user.id, {
       include: [{ model: Role, include: Permission }, { model: Permission }],
     });
-    let perm = [];
+    const perm = [];
     user.Roles.forEach((role) => {
       role.Permissions.forEach((rolePerm) => {
         perm.push(rolePerm.values);
@@ -15,11 +15,11 @@ const getUserPermission = async (req, res, next) => {
       perm.push(permission.values);
     });
     req.session.userPermissions = perm;
-    res.locals.userPermissions = perm;
-
-    next();
-  } else {
-    next();
+    res.locals.userPerm = perm;
+  } catch (error) {
+    console.log(error);
   }
+
+  next();
 };
 module.exports = getUserPermission;

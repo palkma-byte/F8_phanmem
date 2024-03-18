@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Attendance Check</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <!-- Replace these with dynamic dates from backend -->
+        <% classSchedule.forEach((day) => { %>
+        <th><%= moment(day).format('DD/MM') %></th>
+        <% }) %>
+        <!-- Add more dates here as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <% students.forEach(student => { %>
+      <tr>
+        <td><%= student.name %></td>
+        <% classSchedule.forEach((day) => { %>
+        <td>
+          <input type='checkbox' name='{<%= day %>,<%= student.id %>}' disabled <% if(attendedList.find((data) => moment(data.dateLearning).format("DD/MM/YYYY") === moment(day).format("DD/MM/YYYY") && data.studentId === student.id) !== undefined) { %> checked <% } %> />
+        </td>
+        <% }) %>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+</div>

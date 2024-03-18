@@ -1,16 +1,27 @@
 <h5 class="mb-2 mt-4">Danh sách lớp học đã tham gia:</h5>
-<% classes.forEach(classStudent => { %>
-<div class="col-lg-3 col-6">
-  <div class="small-box bg-info">
-    <div class="inner">
-      <h3><%= classStudent.name %></h3>
+<div class="row">
+  <% classes.forEach(classStudent => { %>
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3><%= classStudent.name %></h3>
+      </div>
+      <div class="icon">
+        <i class="fas fa-chalkboard"></i>
+      </div>
+      <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Class Actions">
+        <!-- Button to access homework -->
+        <a href="/student/class/homework/<%= classStudent.id %>" class="btn btn-primary"><i class="fas fa-book-open"></i> Homework</a>
+        <!-- Button to access comments -->
+        <a href="/student/class/<%= classStudent.id %>/comment" class="btn btn-success"><i class="fas fa-comment"></i> Comments</a>
+        <!-- Button to check attendance -->
+        <a href="/student/class/attendance/<%= classStudent.id %>" class="btn btn-info"><i class="fas fa-clipboard-check"></i> Check Attendance</a>
+        <a href="/student/class/document/<%= classStudent.id %>" class="btn btn-primary"><i class="fas fa-file-alt"></i> View Documents</a>
+
+      </div>
+      <!-- Link to class detail -->
+
     </div>
-    <div class="icon">
-      <i class="fas fa-chalkboard"></i>
-    </div>
-    <a href="/student/class/detail/<%= classStudent.id%>" class="small-box-footer">
-      Thông tin chi tiết <i class="fas fa-arrow-circle-right"></i>
-    </a>
   </div>
+  <% }); %>
 </div>
-<% }); %>

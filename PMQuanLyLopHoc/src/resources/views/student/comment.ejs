@@ -11,7 +11,7 @@
         <!-- Reply button -->
         <button class="btn btn-primary reply-btn" onclick="toggleReplyBox(this)">Reply</button>
         <!-- Reply form -->
-        <form method="post" action="/admin/reply" class="reply-form" style="display: none;">
+        <form method="post" action="/student/class/<%= classId %>/reply" class="reply-form" style="display: none;">
           <div class="form-group">
             <label for="reply">Reply:</label>
             <textarea class="form-control" name="reply" rows="3" required></textarea>
@@ -20,11 +20,13 @@
           <button type="submit" class="btn btn-primary">Post Reply</button>
         </form>
         <!-- Add update and delete buttons for replies -->
+        <% if (reply.title === name) { %>
         <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#updateModal<%= reply.id %>">Update</button>
-        <form method="post" action="/admin/comment/delete" class="d-inline">
+        <form method="post" action="/student/class/<%= classId %>/comment/delete" class="d-inline">
           <input type="hidden" name="commentId" value="<%= reply.id %>">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
+        <% } %>
 
         <!-- Update modal for replies -->
         <div class="modal fade" id="updateModal<%= reply.id %>" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel<%= reply.id %>" aria-hidden="true">
@@ -37,12 +39,12 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form method="post" action="/admin/comment/update">
+                <form method="post" action="/student/class/<%= classId %>/comment/update">
                   <div class="form-group">
-                    <label for="updatedReply<%= reply.id %>">Updated Reply:</label>
-                    <textarea class="form-control" id="updatedReply<%= reply.id %>" name="updatedReply" rows="3" required><%= reply.content %></textarea>
+                    <label for="updatedComment<%= reply.id %>">Updated Reply:</label>
+                    <textarea class="form-control" id="updatedComment<%= reply.id %>" name="updatedComment" rows="3" required><%= reply.content %></textarea>
                   </div>
-                  <input type="hidden" name="replyId" value="<%= reply.id %>">
+                  <input type="hidden" name="commentId" value="<%= reply.id %>">
                   <button type="submit" class="btn btn-primary">Update</button>
                 </form>
               </div>
@@ -68,7 +70,7 @@
         <!-- Reply button -->
         <button class="btn btn-primary reply-btn" onclick="toggleReplyBox(this)">Reply</button>
         <!-- Reply form -->
-        <form method="post" action="/admin/reply" class="reply-form" style="display: none;">
+        <form method="post" action="/student/class/<%=classId%>/reply" class="reply-form" style="display: none;">
           <div class="form-group">
             <label for="reply">Reply:</label>
             <textarea class="form-control" name="reply" rows="3" required></textarea>
@@ -77,11 +79,13 @@
           <button type="submit" class="btn btn-primary">Post Reply</button>
         </form>
         <!-- Add update and delete buttons for comments -->
+        <% if (comment.title === name) { %>
         <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#updateModal<%= comment.id %>">Update</button>
-        <form method="post" action="/admin/comment/delete" class="d-inline">
+        <form method="post" action="/student/class/<%= classId %>/comment/delete" class="d-inline">
           <input type="hidden" name="commentId" value="<%= comment.id %>">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
+        <% } %>
 
         <!-- Update modal for comments -->
         <div class="modal fade" id="updateModal<%= comment.id %>" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel<%= comment.id %>" aria-hidden="true">
@@ -94,7 +98,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form method="post" action="/admin/comment/update">
+                <form method="post" action="/student/class/<%= classId %>/comment/update">
                   <div class="form-group">
                     <label for="updatedComment<%= comment.id %>">Updated Comment:</label>
                     <textarea class="form-control" id="updatedComment<%= comment.id %>" name="updatedComment" rows="3" required><%= comment.content %></textarea>
@@ -116,8 +120,6 @@
   </div>
   <% }); %>
 
-  <h2>Leave a Comment</h2>
-  <!-- Your existing code for comment input -->
 </div>
 
 
