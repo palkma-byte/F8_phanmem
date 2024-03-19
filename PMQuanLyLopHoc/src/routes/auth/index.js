@@ -6,8 +6,8 @@ const passport = require("passport");
 var Recaptcha = require("express-recaptcha").RecaptchaV3;
 var options = { hl: "vi", callback: "cb" };
 var recaptcha = new Recaptcha(
-  "6Lc4mTwpAAAAALG7yn8YoPHkuFjb1K724Iraxe7n",
-  "6Lc4mTwpAAAAABn1TPkjIsNUCWbGwdXqhavNAIwI",
+  process.env.CAPTCHA_SITE_KEY,
+  process.env.CAPTCHA_SECRET_KEY,
   options
 );
 
