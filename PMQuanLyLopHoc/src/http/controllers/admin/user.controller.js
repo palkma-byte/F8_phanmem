@@ -4,6 +4,7 @@ const xlsx = require("node-xlsx").default;
 var generator = require("generate-password");
 const Event = require("../../../core/Event");
 const SendMail = require("../../../jobs/SendMail");
+const bcrypt = require("bcrypt");
 var moment = require("moment");
 let data;
 
@@ -205,7 +206,10 @@ module.exports = {
           content: `Bạn đã được thiết lập tài khoản mới tại F8 Edu! Vui lòng sử dụng email ${email} và mật khẩu ${passwordGen} để đăng nhập.`,
         })
       );
-      req.body.password = passwordGen;
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(passwordGen, salt);
+      req.body.password = hash;
       req.body.firstLogin = 1;
       await User.create(req.body);
       res.redirect("/admin/manage");
