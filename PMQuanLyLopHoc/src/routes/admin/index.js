@@ -35,7 +35,7 @@ router.post(
   PermissionMiddleware("delete"),
   UserController.deleteUser
 );
-router.get("/manage/export-excel", UserController.excel);
+
 router.get("/manage/add", UserController.addNewUser);
 router.post("/manage/add", UserController.handleAddUser);
 router.get("/manage/permission/:id", UserController.permission);
@@ -51,7 +51,10 @@ router.post(
   UserController.handleUpdatePermission
 );
 //chart
-router.get("/api/chart", UserController.chartApi);
+router.get("/api/chart/user", UserController.chartUserApi);
+router.get("/api/chart/student", UserController.chartStudentApi);
+router.get("/api/chart/class", UserController.chartClassApi);
+router.get("/api/chart/course", UserController.chartCourseApi);
 //course manager
 router.get("/course", CourseController.manageCourse);
 router.get(
@@ -250,5 +253,14 @@ router.post("/settings", async (req, res) => {
 
   res.redirect("/admin/settings");
 });
+
+//export excel
+router.get("/manage/export-excel", UserController.excel);
+router.get("/course/export-excel", CourseController.excel);
+router.get("/class/export-excel", ClassController.excel);
+router.get(
+  "/class/manage-student/:id/export-excel",
+  ClassController.excelStudentDetail
+);
 
 module.exports = router;

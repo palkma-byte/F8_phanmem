@@ -4,15 +4,15 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Danh sách Course</h3>
+            <h3 class="card-title">Danh sách khóa học</h3>
           </div>
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-6">
                 <% if (userPerm.includes('create')) { %>
-                <a href="/admin/course/add" class="btn btn-success mr-2"><i class="fas fa-plus-circle"></i> Add new course</a>
+                <a href="/admin/course/add" class="btn btn-success mr-2"><i class="fas fa-plus-circle"></i> Thêm khóa học</a>
                 <% } %>
-                <a href="/admin/course/export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Export excel</a>
+                <a href="/admin/course/export-excel" class="btn btn-info mr-2"><i class="fas fa-file-excel"></i> Xuất excel</a>
               </div>
               <div class="col-6 d-flex align-items-center">
                 <form action="" class="mb-3 d-flex">
@@ -25,6 +25,16 @@
                     </button>
                   </div>
                 </form>
+                <div class="col-3">
+                  <form action="" class="mb-3 d-flex">
+                    <label class="mr-2">Hiển thị:</label>
+                    <select name="pageSize" class="form-control" onchange="this.form.submit()">
+                      <option value="5" <%= pageSize === '5' ? 'selected' : '' %>>5</option>
+                      <option value="10" <%= pageSize === '10' ? 'selected' : '' %>>10</option>
+                      <option value="15" <%= pageSize === '15' ? 'selected' : '' %>>15</option>
+                    </select>
+                  </form>
+                </div>
               </div>
             </div>
 
@@ -33,11 +43,11 @@
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Price (nghìn đồng)</th>
+
+                    <th>Tên</th>
+                    <th>Giá (nghìn đồng)</th>
                     <th>Tình trạng học thử</th>
-                    <th>Thời lượng (buổi)</th>
+
                     <th>Quản lý lớp của khóa học</th>
                     <th>Quản lý chương học</th>
                     <% if (userPerm.includes('update')) { %>
@@ -49,15 +59,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% courses.forEach(course => { %>
+                  <% rows.forEach(course => { %>
                   <tr>
-                    <td><%= course.id %></td>
+
                     <td><%= course.name %></td>
                     <td><%= course.price %></td>
                     <td>
                       <%= course.tryLearn===1?"Có thể học thử":"Cần đăng ký" %>
                     </td>
-                    <td><%= course.duration %></td>
+
                     <td>
                       <a href="/admin/course/manage-class/<%= course.id %>" class="btn btn-primary mr-2"><i class="fas fa-cogs"></i></a>
                     </td>
@@ -85,6 +95,32 @@
                 </tbody>
               </table>
             </div>
+
+            <% if (totalPage > 1) { %>
+            <nav class="d-flex justify-content-end">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="?page=1">Đầu</a>
+                </li>
+                <% if (page > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= +page - 1 %>">Trước</a>
+                </li>
+                <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
+                <li class="page-item <%= +page === +i ? 'active': '' %>">
+                  <a class="page-link" href="?page=<%= +i %>"><%= i %></a>
+                </li>
+                <% } %> <% if (page < totalPage ) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= +page + 1 %>">Sau</a>
+                </li>
+                <% } %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= totalPage %>">Cuối</a>
+                </li>
+              </ul>
+            </nav>
+            <% } %>
           </div>
         </div>
       </div>

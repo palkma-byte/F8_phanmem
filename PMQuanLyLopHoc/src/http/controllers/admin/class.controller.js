@@ -10,17 +10,18 @@ const {
 } = require("../../../models");
 var moment = require("moment");
 const { Op } = require("sequelize");
+const xlsx = require("node-xlsx").default;
+let data;
 
 module.exports = {
   manageClass: async (req, res) => {
-    console.log(req.session.userPermissions);
-    const { page = 1, pageSize = 5 } = req.query;
+    const { page = 1, pageSize = 5, keyword = "" } = req.query;
     const { id } = req.params;
     try {
       const course = await Course.findByPk(id);
       const offset = (page - 1) * pageSize;
       const { count, rows } = await Class.findAndCountAll({
-        where: { courseId: id },
+        where: { courseId: id, name: { [Op.substring]: keyword } },
         order: [["id", "ASC"]],
         offset: offset,
         limit: +pageSize,
@@ -29,6 +30,7 @@ module.exports = {
       const totalPage = Math.ceil(count / pageSize);
 
       res.render("admin/class/class", {
+        keyword,
         course,
         rows,
         page,
@@ -36,6 +38,40 @@ module.exports = {
         pageSize,
         moment,
       });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  excel: (req, res) => {
+    try {
+      const dataExport = [
+        [
+          "Tên",
+          "Số buổi học",
+          "Ngày bắt đầu",
+          "Ngày kết thúc",
+          "Lịch học",
+          "Thời gian vào học",
+        ],
+      ];
+      data.forEach((row) => {
+        dataExport.push([
+          row.name,
+          row.quantity,
+          row.startDate,
+          row.endDate,
+          row.schedule,
+          row.timeLearn,
+        ]);
+      });
+      var buffer = xlsx.build([{ name: "mySheetName", data: dataExport }]);
+      res
+        .setHeader(
+          "Content-Disposition",
+          "attachment; filename=ExportClass.xlsx"
+        )
+        .send(buffer);
     } catch (error) {
       console.log(error);
       res.render("error");
@@ -127,17 +163,65 @@ module.exports = {
   studentDetail: async (req, res) => {
     try {
       const classId = req.params.id;
+      const { page = 1, keyword = "", pageSize = 5 } = req.query;
+      const offset = (page - 1) * pageSize;
       const classInfo = await Class.findByPk(classId);
-      const studentDetail = await StudentsClass.findAll({
+      const { count, rows } = await StudentsClass.findAndCountAll({
+        order: [["id", "ASC"]],
+        offset: offset,
+        limit: +pageSize,
         where: { classId: classId },
-        include: [User, LearningStatus],
+        include: [
+          { model: User, where: { name: { [Op.substring]: keyword } } },
+          LearningStatus,
+        ],
       });
+      data = rows;
+      const totalPage = Math.ceil(count / pageSize);
 
       res.render("admin/class/student-detail", {
         classInfo,
-        studentDetail,
+        pageSize,
+        rows,
         moment,
+        totalPage,
+        keyword,
+        page,
       });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  excelStudentDetail: (req, res) => {
+    try {
+      const dataExport = [
+        [
+          "Tên",
+          "Tình trạng",
+          "Ngày hoàn thành",
+          "Ngày bảo lưu",
+          "Ngày nhập học trở lại",
+        ],
+      ];
+      data.forEach((row) => {
+        dataExport.push([
+          row.User.name,
+          row.LearningStatus.name,
+          row.completedDate
+            ? moment(row.completedDate).format("DD/MM/YYYY")
+            : "Chưa có",
+          row.dropDate ? moment(row.dropDate).format("DD/MM/YYYY") : "Chưa có",
+          row.recover ? moment(row.recover).format("DD/MM/YYYY") : "Chưa có",
+        ]);
+      });
+      var buffer = xlsx.build([{ name: "mySheetName", data: dataExport }]);
+      res
+        .setHeader(
+          "Content-Disposition",
+          "attachment; filename=ExportStudentDetail.xlsx"
+        )
+        .send(buffer);
     } catch (error) {
       console.log(error);
       res.render("error");

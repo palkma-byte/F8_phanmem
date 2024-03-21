@@ -16,17 +16,14 @@ const {
 } = require("./src/models");
 const { Op } = require("sequelize");
 async function test() {
-  const a = await Class.findByPk(5, {
-    include: {
-      model: Course,
-      include: {
-        model: CourseModule,
-        as: "Module",
-        include: { model: ModuleDocument, as: "documents" }, // Use the alias 'documents'
-      },
-    },
+  const { count, rows } = await StudentsClass.findAndCountAll({
+    where: { classId: 5 },
+    include: [
+      { model: User, where: { name: { [Op.substring]: "" } } },
+      LearningStatus,
+    ],
   });
-  console.log(a.Course.Module[0].documents);
+  console.log(rows);
 }
 //kkkkkk
 test();

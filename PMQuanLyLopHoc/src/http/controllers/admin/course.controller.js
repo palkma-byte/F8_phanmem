@@ -6,15 +6,53 @@ const {
 } = require("../../../models");
 var moment = require("moment");
 moment.locale("vi");
-
+const { Op } = require("sequelize");
+const xlsx = require("node-xlsx").default;
+let data;
 module.exports = {
   manageCourse: async (req, res) => {
-    const user = req.user;
-    const { page = 1, keyword = "" } = req.query;
-
     try {
-      const courses = await Course.findAll();
-      res.render("admin/course/course", { courses, user, page, keyword });
+      const { page = 1, keyword = "", pageSize = 5 } = req.query;
+      const offset = (page - 1) * pageSize;
+      const option = {
+        attributes: ["id", "name", "price", "tryLearn"],
+        order: [["id", "ASC"]],
+        offset: offset,
+        limit: +pageSize,
+        where: { name: { [Op.substring]: keyword } },
+      };
+      const { count, rows } = await Course.findAndCountAll(option);
+      data = rows;
+      const totalPage = Math.ceil(count / pageSize);
+      res.render("admin/course/course", {
+        totalPage,
+        pageSize,
+        rows,
+        page,
+        keyword,
+      });
+    } catch (error) {
+      console.log(error);
+      res.render("error");
+    }
+  },
+  excel: (req, res) => {
+    try {
+      const dataExport = [["Tên", "Giá", "Tình trạng học thử"]];
+      data.forEach((row) => {
+        dataExport.push([
+          row.name,
+          row.price,
+          row.tryLearn === 1 ? "Có thể học thử" : "Cần đăng ký",
+        ]);
+      });
+      var buffer = xlsx.build([{ name: "mySheetName", data: dataExport }]);
+      res
+        .setHeader(
+          "Content-Disposition",
+          "attachment; filename=ExportCourse.xlsx"
+        )
+        .send(buffer);
     } catch (error) {
       console.log(error);
       res.render("error");

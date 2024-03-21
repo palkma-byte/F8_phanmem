@@ -1,4 +1,11 @@
-const { User, Type, Role, Permission } = require("../../../models");
+const {
+  User,
+  Type,
+  Role,
+  Permission,
+  Class,
+  Course,
+} = require("../../../models");
 const { Op } = require("sequelize");
 const xlsx = require("node-xlsx").default;
 var generator = require("generate-password");
@@ -7,6 +14,39 @@ const SendMail = require("../../../jobs/SendMail");
 const bcrypt = require("bcrypt");
 var moment = require("moment");
 let data;
+
+function chartData(data) {
+  const currentDate = moment();
+
+  // Calculate the four nearest months before the current date
+  const nearestMonths = [];
+  for (let i = 4; i >= 0; i--) {
+    const month = currentDate.clone().subtract(i, "months");
+    nearestMonths.push(month);
+  }
+
+  // Group users by month and count the number of users in each month
+  const groupedData = data.reduce((acc, piece) => {
+    const monthYear = moment(piece.createdAt).format("MM/YYYY");
+    acc[monthYear] = (acc[monthYear] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Extract the counts for the nearest months
+  const result = nearestMonths.map((month) => {
+    const monthYear = month.format("MM/YYYY");
+    return {
+      month: monthYear,
+      count: groupedData[monthYear] || 0,
+    };
+  });
+
+  // Separate arrays for months and counts
+  const months = result.map((entry) => entry.month);
+  const counts = result.map((entry) => entry.count);
+
+  return { month: months, count: counts };
+}
 
 module.exports = {
   index: async (req, res) => {
@@ -17,41 +57,31 @@ module.exports = {
       res.render("error");
     }
   },
-  chartApi: async (req, res) => {
-    // Assuming you have fetched the list of users and stored it in the 'users' variable
+  chartUserApi: async (req, res) => {
     const users = await User.findAll();
+    const data = chartData(users);
 
-    // Get the current date
-    const currentDate = moment();
-
-    // Calculate the four nearest months before the current date
-    const nearestMonths = [];
-    for (let i = 6; i >= 0; i--) {
-      const month = currentDate.clone().subtract(i, "months");
-      nearestMonths.push(month);
-    }
-
-    // Group users by month and count the number of users in each month
-    const groupedData = users.reduce((acc, user) => {
-      const monthYear = moment(user.createdAt).format("MM/YYYY");
-      acc[monthYear] = (acc[monthYear] || 0) + 1;
-      return acc;
-    }, {});
-
-    // Extract the counts for the nearest months
-    const result = nearestMonths.map((month) => {
-      const monthYear = month.format("MM/YYYY");
-      return {
-        month: monthYear,
-        count: groupedData[monthYear] || 0,
-      };
+    res.json(data);
+  },
+  chartStudentApi: async (req, res) => {
+    const students = await User.findAll({
+      include: { model: Type, where: { name: "student" } },
     });
+    const data = chartData(students);
 
-    // Separate arrays for months and counts
-    const months = result.map((entry) => entry.month);
-    const counts = result.map((entry) => entry.count);
+    res.json(data);
+  },
+  chartClassApi: async (req, res) => {
+    const classInfo = await Class.findAll();
+    const data = chartData(classInfo);
 
-    res.json({ month: months, count: counts });
+    res.json(data);
+  },
+  chartCourseApi: async (req, res) => {
+    const courses = await Course.findAll();
+    const data = chartData(courses);
+
+    res.json(data);
   },
   manager: async (req, res) => {
     try {
@@ -103,10 +133,11 @@ module.exports = {
   },
   excel: (req, res) => {
     try {
-      const dataExport = [];
+      const dataExport = [
+        ["Tên", "Email", "SĐT", "Địa chỉ", "Loại tk", "Xác thực"],
+      ];
       data.forEach((row) => {
         dataExport.push([
-          row.id,
           row.name,
           row.email,
           row.phone,
@@ -173,9 +204,7 @@ module.exports = {
       res.render("error");
     }
   },
-  resetPassword: (req, res) => {
-    // Implement the resetPassword logic here
-  },
+
   addNewUser: async (req, res) => {
     try {
       const user = req.user;
