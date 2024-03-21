@@ -143,7 +143,7 @@ module.exports = {
       new SendMail({
         email: email,
         subject: "Email thay doi mat khau",
-        content: `Click vao link sau de chuyen den trang thay doi mat khau <a href="http://localhost:3001/auth/new-password/${token}">Click Here!</a> (Link se het han sau 2 phut)`,
+        content: `Click vao link sau de chuyen den trang thay doi mat khau <a href="${req.protocol}://${req.headers.host}/auth/new-password/${token}">Click Here!</a> (Link se het han sau 2 phut)`,
       })
     );
     req.flash("success", "Email thay doi mat khau da duoc gui di!");
