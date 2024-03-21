@@ -1,7 +1,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <a href="#"><b>Admin</b>LTE</a>
+      <a href="#">Quản Lý Lớp Học</a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -21,13 +21,7 @@
         <!-- /Flash message -->
         <form method="post">
           <div class="input-group mb-3">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Email"
-              name="email"
-              required
-            />
+            <input type="email" class="form-control" placeholder="Email" name="email" required />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -35,13 +29,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Password"
-              name="password"
-              required
-            />
+            <input type="password" class="form-control" placeholder="Password" name="password" required />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -49,10 +37,10 @@
             </div>
           </div>
           <%- captcha %>
-          
+
           <div class="row">
             <div class="col-4">
-             
+
             </div>
             <!-- /.col -->
             <div class="col-4">
@@ -90,15 +78,15 @@
     </div>
   </div>
   <!-- /.login-box -->
- 
+
 </body>
 <script>
   function cb(token) {
-      console.log('token', token)
-      var input = document.createElement('input')
-      input.setAttribute('type', 'hidden')
-      input.setAttribute('name', 'g-recaptcha-response')
-      input.setAttribute('value', token)
-       document.getElementsByTagName('form')[0].appendChild(input)
+    console.log('token', token)
+    var input = document.createElement('input')
+    input.setAttribute('type', 'hidden')
+    input.setAttribute('name', 'g-recaptcha-response')
+    input.setAttribute('value', token)
+    document.getElementsByTagName('form')[0].appendChild(input)
   }
 </script>
