@@ -269,7 +269,8 @@ module.exports = {
       const classId = req.params.id;
       const classInfo = await Class.findByPk(classId);
       const user = await User.findByPk(req.body.studentId, { include: Type });
-      if (user.Type.name === "student") {
+      const studentAlreadyInClass = await classInfo.hasStudent(user);
+      if (user.Type.name === "student" && !studentAlreadyInClass) {
         await classInfo.addStudent(req.body.studentId);
       }
       res.redirect("/admin/class/manage-student/" + classId + "/add");
@@ -318,7 +319,8 @@ module.exports = {
       const classId = req.params.id;
       const classInfo = await Class.findByPk(classId);
       const user = await User.findByPk(req.body.teacherId, { include: Type });
-      if (user.Type.name === "teacher") {
+      const isTeacherAlreadyInClass = await classInfo.hasTeacher(user);
+      if (user.Type.name === "teacher" && !isTeacherAlreadyInClass) {
         await classInfo.addTeacher(req.body.teacherId);
       }
       res.redirect("/admin/class/manage-teacher/" + classId);

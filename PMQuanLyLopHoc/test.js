@@ -16,14 +16,9 @@ const {
 } = require("./src/models");
 const { Op } = require("sequelize");
 async function test() {
-  const { count, rows } = await StudentsClass.findAndCountAll({
-    where: { classId: 5 },
-    include: [
-      { model: User, where: { name: { [Op.substring]: "" } } },
-      LearningStatus,
-    ],
-  });
-  console.log(rows);
+  const classInfo = await Class.findByPk(5);
+  const user = await User.findByPk(3);
+  console.log(await classInfo.hasTeacher(user));
 }
 //kkkkkk
 test();
