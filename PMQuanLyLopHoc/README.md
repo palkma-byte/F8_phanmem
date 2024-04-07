@@ -1,23 +1,11 @@
-# Dự án phầm mềm quản lý lớp học
+# Website quan ly lop hoc
 
-# Quy ước về router
+A website project about managing offline classes for user: admin, teacher, and student. Full authentication and authorization functions, login via social network and login only one device, account verification via email. Using cron for automating email sending.
+Admin: manage user, courses, classes, and view growth statistics charts.
+Teacher: View course and class detail for which they are reponsible, edit documents, track attendance, and view teaching schedules.
+Student: Access course materials, ask questions, submit assignments.
 
-## Đối tượng học viên
+## Table of Contents
 
-Prefix: /student
-
-## Đối tượng quản trị
-
-Prefix: /admin
-
-## Đối tượng giảng viên
-
-Perfix: /teacher
-
-## Đối tượng xác thực
-
-Prefix: /auth
-
-Admin account: admin@gmail.com - Pass: 1;
-Student account: student@gmail.com - Pass: 1;
-Teacher account: teacher@gmail.com - Pass: 1;
+1. [Installation](#installation)
+2. [Usage](#usage)

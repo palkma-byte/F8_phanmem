@@ -6,7 +6,8 @@
     "start": "nodemon ./bin/www",
     "db": "npx sequelize-cli db:migrate",
     "undomigrate": "npx sequelize-cli db:migrate:undo",
-    "seeder": "npx sequelize-cli db:seed:all"
+    "seeder": "npx sequelize-cli db:seed:all",
+    "project": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

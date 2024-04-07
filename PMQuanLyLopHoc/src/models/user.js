@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasOne(models.LoginToken);
       User.belongsToMany(models.Social, {
+        onDelete: "CASCADE",
         through: "UserSocials",
         foreignKey: "userId",
       });

@@ -12,12 +12,14 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         references: { model: "Users", key: "id" },
+        onDelete: "CASCADE",
       },
       providerId: {
         type: Sequelize.INTEGER,
         references: { model: "Socials", key: "id" },
+        onDelete: "CASCADE",
       },
-      externalId:{
+      externalId: {
         type: Sequelize.STRING,
       },
       createdAt: {
